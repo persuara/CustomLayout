@@ -10,8 +10,9 @@ import UIKit
 class ViewController: UIViewController {
     
    lazy var array: [Model] = [
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 50)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 90)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 80)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 130))
@@ -27,7 +28,7 @@ class ViewController: UIViewController {
         view.dataSource = self
         layout.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        view.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.reuseIdentifier)
         return view
     }()
     
@@ -51,8 +52,9 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseIdentifier, for: indexPath) as! CollectionViewCell
         cell.backgroundColor = .blue.withAlphaComponent(0.3)
+        cell.label.text = "\(indexPath.item)"
         cell.layer.cornerRadius = 15
         return cell
     }

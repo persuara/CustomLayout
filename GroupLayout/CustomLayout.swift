@@ -47,9 +47,7 @@ class CustomLayout: UICollectionViewLayout {
         
         let sections = collectionView.numberOfSections
         
-        var largestY: CGFloat = 0.0
-        var indexlargestY: Int = 0
-        var yOffset: [Int: CGFloat] = [:]
+       
         
         layoutAttributes.removeAll()
         context.reset()
@@ -58,6 +56,9 @@ class CustomLayout: UICollectionViewLayout {
             minimumLineSpacing = delegate.collectionview(collectionView, layout: self, minimumLineSpacing: section)
             minimumInterItemLineSpacing = delegate.collectionview(collectionView, layout: self, minimumInterItemLineSpacing: section)
             
+            var largestY: CGFloat = 0.0
+            var indexlargestY: Int = 0
+            var yOffset: [Int: CGFloat] = [:]
             
             for item in 0..<collectionView.numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
@@ -67,20 +68,18 @@ class CustomLayout: UICollectionViewLayout {
                 layoutAttributes[key] = layoutAttribute
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
-//                    var keyIndex = keyForLayoutAttributeItems(indexPath: IndexPath(item: indexlargestY, section: section))
-//                    var largestYLayoutAttribute = layoutAttributes[keyIndex]
-                    context.cursor = CGPoint(x: 0, y: context.cursor.y + itemSize.height + minimumLineSpacing)
+                    let indexlowest = findTheIndexOffLowest(yOffset: yOffset)
+                    let key = keyForLayoutAttributeItems(indexPath: IndexPath(item: indexlowest, section: section))
+                    let targetLayout = layoutAttributes[key]
+                    context.cursor = CGPoint(x: targetLayout?.frame.minX ?? context.cursor.x, y: (targetLayout?.frame.minY ?? context.cursor.y) + itemSize.height + minimumLineSpacing)
                 }
-                
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+                largestOffsetIndex(largestY: &largestY, yOffset: &yOffset)
+                print("lowest index: \(findTheIndexOffLowest(yOffset: yOffset))")
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
-                yOffset[item] = layoutAttribute.frame.maxY - largestY
-                print(yOffset)
-                if layoutAttribute.frame.maxY > largestY {
-                    largestY = layoutAttribute.frame.maxY
-                    indexlargestY = item
-                    print("item \(indexlargestY) : \(largestY)")
-                }
+               
+               
+                
             }
         }
         contentSize = CGSize(width: contentWidth, height: contentheight)
@@ -99,6 +98,31 @@ class CustomLayout: UICollectionViewLayout {
     }
     private func isAvailableSpace(_ width: CGFloat, _ minimumInterItemLineSpacing: CGFloat ) -> Bool {
         return context.cursor.x + width + minimumInterItemLineSpacing < (contentWidth + collectionView!.contentInset.left)
+    }
+    private func largestOffsetIndex(largestY: inout CGFloat, yOffset: inout [Int: CGFloat]){
+        var indexlargestY: Int = 0
+        for (idx, layoutAtt) in layoutAttributes.enumerated() {
+            if layoutAtt.value.frame.maxY > largestY {
+                largestY = layoutAtt.value.frame.maxY
+                indexlargestY = idx
+            }
+            if idx != indexlargestY {
+                yOffset[idx] = largestY - layoutAtt.value.frame.maxY
+//                print("\(largestY) - \(layoutAtt.value.frame.maxY) = \(largestY - layoutAtt.value.frame.maxY)")
+                print("*****\(idx) -> \(yOffset[idx]!)******\n")
+            }
+        }
+    }
+    private func findTheIndexOffLowest(yOffset: [Int: CGFloat] ) -> Int {
+        var max: CGFloat = 0.0
+        var maxIndex: Int = 0
+        for (idx, yoffsetValue) in yOffset.enumerated() {
+            if yoffsetValue.value > max {
+                max = yoffsetValue.value
+                maxIndex = idx
+            }
+        }
+        return maxIndex
     }
 }
 struct Context {
