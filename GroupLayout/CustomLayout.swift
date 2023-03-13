@@ -57,29 +57,38 @@ class CustomLayout: UICollectionViewLayout {
             minimumInterItemLineSpacing = delegate.collectionview(collectionView, layout: self, minimumInterItemLineSpacing: section)
             
             var largestY: CGFloat = 0.0
-            var indexlargestY: Int = 0
+//            var indexlargestY: Int = 0
             var yOffset: [Int: CGFloat] = [:]
-            
+
             for item in 0..<collectionView.numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
                 let layoutAttribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 let key = keyForLayoutAttributeItems(indexPath: indexPath)
-                let itemSize = delegate.collectionview(collectionView, layout: self, sizeForItemAt: item)
+                let itemSize = delegate.collectionView(collectionView, layout: self, sizeForItemAt: item)
                 layoutAttributes[key] = layoutAttribute
+
+                let testDictionary = layoutAttributes.sorted(by: { $0.value.frame.maxY < $1.value.frame.maxY })
+                testDictionary.forEach({ key, value in
+                    print(value.frame.maxY)
+                    print("key: \(key)")
+                })
+                print("-------------")
+                
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                     let indexlowest = findTheIndexOffLowest(yOffset: yOffset)
                     let key = keyForLayoutAttributeItems(indexPath: IndexPath(item: indexlowest, section: section))
                     let targetLayout = layoutAttributes[key]
-                    context.cursor = CGPoint(x: targetLayout?.frame.minX ?? context.cursor.x, y: (targetLayout?.frame.minY ?? context.cursor.y) + itemSize.height + minimumLineSpacing)
+                    context.cursor = CGPoint(x: targetLayout?.frame.minX ?? context.cursor.x,
+                                             y: (targetLayout?.frame.maxY ?? context.cursor.y) + minimumLineSpacing)
                 }
+
+
+
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
-                largestOffsetIndex(largestY: &largestY, yOffset: &yOffset)
-                print("lowest index: \(findTheIndexOffLowest(yOffset: yOffset))")
+//                largestOffsetIndex(largestY: &largestY, yOffset: &yOffset)
+//                print("lowest index: \(findTheIndexOffLowest(yOffset: yOffset))")
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
-               
-               
-                
             }
         }
         contentSize = CGSize(width: contentWidth, height: contentheight)
