@@ -10,12 +10,18 @@ import UIKit
 class ViewController: UIViewController {
     
    lazy var array: [Model] = [
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 90)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 110)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 290)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 130)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 110)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 80)),
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 130))
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 50)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 50)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 50)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
    ]
 
     
@@ -27,6 +33,7 @@ class ViewController: UIViewController {
         view.delegate = self
         view.dataSource = self
         layout.delegate = self
+//        layout.collectionView?.layoutSubviews()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.reuseIdentifier)
         return view
@@ -37,7 +44,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(collectionview)
         view.backgroundColor = .systemMint
-        collectionview.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        collectionview.contentInset = UIEdgeInsets(top: 50, left: 5, bottom: 0, right: 5)
         collectionview.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         
         collectionview.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
