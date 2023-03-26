@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
+    //hiiiii
    lazy var array: [Model] = [
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 50)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 40)),
