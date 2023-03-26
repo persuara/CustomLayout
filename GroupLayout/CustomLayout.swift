@@ -91,7 +91,7 @@ class CustomLayout: UICollectionViewLayout {
                 } else {
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
                 }
-                removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keySmall)
+                removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
             }
         }
         contentSize = CGSize(width: contentWidth, height: context.cursor.y + contentheight)
@@ -114,46 +114,39 @@ class CustomLayout: UICollectionViewLayout {
 
     private func setTheMaxY() -> Dictionary<String,CGFloat> {
         var max: CGFloat = 0.0
-        var key: String = ""
+        var keyToPass: String = ""
         var dictionary: Dictionary<String,CGFloat> = .init()
-        for (_, layoutAttribute) in layoutAttributes.enumerated() {
-            if layoutAttribute.value.frame.maxY >= max {
-                
-                max = layoutAttribute.value.frame.maxY
-                key = layoutAttribute.key
+        TESTPURPOSE.forEach({ (key, value ) in
+            if value.frame.maxY >= max {
+                max = value.frame.maxY
+                keyToPass = key
             }
-        }
-        dictionary.updateValue(max, forKey: key)
+        })
+        dictionary.updateValue(max, forKey: keyToPass)
         return dictionary
     }
     
     private func getTheOffsetOfEachAttributeFromMax(maxY: Dictionary<String,CGFloat>, key: String) -> Dictionary<String, CGFloat>{
         var offSet: CGFloat = 0.0
-        var key: String = ""
         var dictionary: Dictionary<String,CGFloat> = .init()
-        
-        for (_, layoutAttribute) in layoutAttributes.enumerated() {
-            if layoutAttribute.key == key {
-                continue
-            }
-            offSet = maxY.values.first! - layoutAttribute.value.frame.maxY
-            key = layoutAttribute.key
-            dictionary.updateValue(offSet, forKey: key)
-        }
+        TESTPURPOSE.forEach({ (key, value) in
+            offSet = (maxY.first?.value ?? 0.0) - value.frame.maxY
+            dictionary[key] = offSet
+        })
         return dictionary
     }
     private func getTheIndexOfTheBiggestOffsetValue(offSet: Dictionary<String, CGFloat>) -> String {
-        var key: String = ""
-        var min: CGFloat = CGFloat.greatestFiniteMagnitude
-        for (_, yoffsetValue) in offSet.enumerated() {
-            if yoffsetValue.value <= min && yoffsetValue.value != 0.0 {
-                min = yoffsetValue.value
-                key = yoffsetValue.key
+        var keyToPass: String = ""
+        var max: CGFloat = 0.0
+        offSet.forEach({(key, value) in
+            if value >= max {
+                max = value
+                keyToPass = key
             }
-        }
-        return key
+        })
+        return keyToPass
     }
-    public func removeAndUpdateDictionary(dic: inout [String: UICollectionViewLayoutAttributes], key: String) {
+    private func removeAndUpdateForDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
         dic.removeValue(forKey: key)
     }
 }
