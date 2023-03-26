@@ -10,23 +10,32 @@ import UIKit
 class ViewController: UIViewController {
     
    lazy var array: [Model] = [
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 60)),
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 40)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 50)),
-        .init(size: CGSize(width: widthConstant / 2 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 2.5 - 7, height: 200)),
-        .init(size: CGSize(width: widthConstant / 5 - 7, height: 130)),
-        .init(size: CGSize(width: widthConstant / 2 - 7, height: 110)),
-        .init(size: CGSize(width: widthConstant / 4 - 7, height: 80)),
-        .init(size: CGSize(width: widthConstant / 2 - 7, height: 50)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 40)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 90)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 200)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 130)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 110)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 80)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 50)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 90)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 50)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
-//        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
-//        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
-//        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
-//        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
-//        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
    ]
 
     
@@ -77,7 +86,7 @@ extension ViewController: CustomLayoutDelegate {
     }
     
     func collectionview(_ collectionview: UICollectionView, layout: UICollectionViewLayout, minimumLineSpacing section: Int) -> CGFloat {
-        5
+        10
     }
     
     func collectionview(_ collectionview: UICollectionView, layout: UICollectionViewLayout, minimumInterItemLineSpacing section: Int) -> CGFloat {

@@ -26,10 +26,10 @@ extension Array {
         return dic!
     }
 }
-extension Dictionary<String, CGFloat> {
-    public mutating func removeAndUpdate(/*for key: String,*/ index: Index) {
-//        self.removeValue(forKey: key)
-        self.remove(at: index)
+extension Dictionary<String, UICollectionViewLayoutAttributes> {
+    public mutating func removeAndUpdate(for key: String) {
+        self.removeValue(forKey: key)
+//        self.remove(at: index)
     }
 }
 extension String {
