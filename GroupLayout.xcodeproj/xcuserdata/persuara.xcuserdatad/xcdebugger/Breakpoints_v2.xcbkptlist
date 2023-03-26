@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "07648153-BCAA-4269-9454-E9622A9D8D09"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.IDEConstraintErrorBreakpoint">
+         <BreakpointContent
+            uuid = "A762BE4A-20C3-416F-9C62-0D39AF0FEB13"
+            shouldBeEnabled = "Yes"
+            nameForDebugger = "UIViewAlertForUnsatisfiableConstraints"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B7A3F0D2-9737-4B0A-9793-DBC089F32FBF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GroupLayout/CustomLayout.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "prepare()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
