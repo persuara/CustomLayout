@@ -79,7 +79,7 @@ class CustomLayout: UICollectionViewLayout {
 //                        print("Cursor Item goes here: \(item)")
 //                        print(keySmall)
                         context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
-                        TESTPURPOSE.removeAndUpdate(for: keySmall)
+                        
                     }
                     nextLine = true
                 } else {
@@ -109,8 +109,11 @@ class CustomLayout: UICollectionViewLayout {
 //                    }
                 }
 //                else {
+                if !keySmall.isEmpty {
+                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                } else {
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
-                
+                }
 //                }
                 
                 //                if dic?[keySmall] != nil && nextLine == true {
@@ -123,8 +126,9 @@ class CustomLayout: UICollectionViewLayout {
                 
                 
                 //                }
-                
+                removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
             }
+            
         }
         contentSize = CGSize(width: contentWidth, height: context.cursor.y + contentheight)
     }
@@ -180,8 +184,9 @@ class CustomLayout: UICollectionViewLayout {
         })
         return keyToPass
     }
-    
-    
+    private func removeAndUpdateForDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
+        dic.removeValue(forKey: key)
+    }
 }
 struct Context {
     var cursor: CGPoint = .zero
