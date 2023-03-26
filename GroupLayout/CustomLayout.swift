@@ -67,7 +67,6 @@ class CustomLayout: UICollectionViewLayout {
                 var dic: Dictionary<String, CGFloat>?
                 dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
                 keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic!)
-                print("keySmall: \(keySmall)")
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                     allowedToGoToNextLine = true
@@ -75,7 +74,6 @@ class CustomLayout: UICollectionViewLayout {
                         context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                     }
                 }
-                print("Context.Cursor for \(item)  is [ x: \(context.cursor.x) ,  y: \(context.cursor.y) ]")
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                 
                 //----Mark TEST
@@ -83,11 +81,11 @@ class CustomLayout: UICollectionViewLayout {
                     let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
                         if layoutAttribute.frame.intersects(lastframe) == true {
                             layoutAttribute.frame = CGRect(x: lastframe.minX, y: lastframe.maxY + minimumLineSpacing, width: itemSize.width, height: itemSize.height)
-                            context.cursor = CGPoint(x: lastframe.minX + minimumInterItemLineSpacing, y: lastframe.maxY + minimumLineSpacing)
+                            context.cursor = CGPoint(x: lastframe.minX + minimumInterItemLineSpacing - minimumInterItemLineSpacing, y: lastframe.maxY - minimumLineSpacing)
                         }
                 }
                 if allowedToGoToNextLine {
-                    context.cursor = .init(x: (layoutAttributes[keySmall]?.frame.minX)!, y: (layoutAttributes[keySmall]?.frame.maxY)! + minimumLineSpacing)
+                    context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: (layoutAttributes[keySmall]?.frame.minY)!)
                 } else {
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
                 }
