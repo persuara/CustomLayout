@@ -55,8 +55,9 @@ class CustomLayout: UICollectionViewLayout {
             minimumInterItemLineSpacing = delegate.collectionview(collectionView, layout: self, minimumInterItemLineSpacing: section)
             var dic: Dictionary<String, CGFloat>?
             var keySmall: String = ""
-            
+            var allowedToGoNextLine: Bool = false
             for item in 0..<collectionView.numberOfItems(inSection: section) {
+                
                 let indexPath = IndexPath(item: item, section: section)
                 let layoutAttribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 let key = keyForLayoutAttributeItems(indexPath: indexPath)
@@ -66,13 +67,15 @@ class CustomLayout: UICollectionViewLayout {
                 TESTPURPOSE[key] = layoutAttribute
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
+                    allowedToGoNextLine = true
                     if dic?[keySmall] != nil {
                         context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                     }
+//                    removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
                 }
                 
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
-                if item > 1 {
+                if allowedToGoNextLine == true {
                     dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
                     keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic!)
                     print("\(item) key small: \(keySmall)")
