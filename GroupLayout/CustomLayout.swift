@@ -80,11 +80,15 @@ class CustomLayout: UICollectionViewLayout {
                 for i in 0..<layoutAttributes.count - 1 {
                     let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
                         if layoutAttribute.frame.intersects(lastframe) == true {
-                            layoutAttribute.frame = CGRect(x: lastframe.minX, y: lastframe.maxY + minimumLineSpacing, width: itemSize.width, height: itemSize.height)
-                            context.cursor = CGPoint(x: lastframe.minX + minimumInterItemLineSpacing - minimumInterItemLineSpacing, y: lastframe.maxY - minimumLineSpacing)
+                            layoutAttribute.frame = CGRect(x: lastframe.minX,
+                                                           y: lastframe.maxY + minimumLineSpacing,
+                                                           width: itemSize.width,
+                                                           height: itemSize.height)
+                            context.cursor = CGPoint(x: lastframe.minX , y: lastframe.maxY + minimumLineSpacing)
                         }
                 }
                 if allowedToGoToNextLine {
+                    print("item NO: \(item) ----> \(keySmall)")
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: (layoutAttributes[keySmall]?.frame.minY)!)
                 } else {
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
@@ -111,28 +115,28 @@ class CustomLayout: UICollectionViewLayout {
     }
 
     private func setTheMaxY() -> Dictionary<String,CGFloat> {
-        var max: CGFloat = 0.0
-        var keyToPass: String = ""
-        var dictionary: Dictionary<String,CGFloat> = .init()
-        TESTPURPOSE.forEach({ (key, value ) in
-            if value.frame.maxY >= max {
-                max = value.frame.maxY
-                keyToPass = key
-            }
-        })
-        dictionary.updateValue(max, forKey: keyToPass)
-        return dictionary
-    }
+           var max: CGFloat = 0.0
+           var keyToPass: String = ""
+           var dictionary: Dictionary<String,CGFloat> = .init()
+           TESTPURPOSE.forEach({ (key, value ) in
+               if value.frame.maxY >= max {
+                   max = value.frame.maxY
+                   keyToPass = key
+               }
+           })
+           dictionary.updateValue(max, forKey: keyToPass)
+           return dictionary
+       }
     
     private func getTheOffsetOfEachAttributeFromMax(maxY: Dictionary<String,CGFloat>, key: String) -> Dictionary<String, CGFloat>{
-        var offSet: CGFloat = 0.0
-        var dictionary: Dictionary<String,CGFloat> = .init()
-        TESTPURPOSE.forEach({ (key, value) in
-            offSet = (maxY.first?.value ?? 0.0) - value.frame.maxY
-            dictionary[key] = offSet
-        })
-        return dictionary
-    }
+            var offSet: CGFloat = 0.0
+            var dictionary: Dictionary<String,CGFloat> = .init()
+            TESTPURPOSE.forEach({ (key, value) in
+                offSet = (maxY.first?.value ?? 0.0) - value.frame.maxY
+                dictionary[key] = offSet
+            })
+            return dictionary
+        }
     private func getTheIndexOfTheBiggestOffsetValue(offSet: Dictionary<String, CGFloat>) -> String {
         var keyToPass: String = ""
         var max: CGFloat = 0.0
