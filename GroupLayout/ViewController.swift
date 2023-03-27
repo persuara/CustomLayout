@@ -61,7 +61,7 @@ class ViewController: UIViewController {
     
     
     
-    lazy var layout: CustomLayout = .init()
+    lazy var layout: PSFlowLayout = .init()
     lazy var collectionview: UICollectionView = {
         let view: UICollectionView = .init(frame: .zero, collectionViewLayout: layout)
         view.delegate = self

@@ -16,6 +16,8 @@
 		C744AF7729BF16E20035025A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C744AF7629BF16E20035025A /* Model.swift */; };
 		C744AF7929BF25CE0035025A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C744AF7829BF25CE0035025A /* AppDelegate.swift */; };
 		C7B94CA929BF6802006E1E6A /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B94CA829BF6802006E1E6A /* CollectionViewCell.swift */; };
+		C7C1869429D18A4B00E2BAC4 /* PSFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C1869329D18A4B00E2BAC4 /* PSFlowLayout.swift */; };
+		C7C1869629D192B100E2BAC4 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C1869529D192B100E2BAC4 /* Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		C744AF7629BF16E20035025A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		C744AF7829BF25CE0035025A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7B94CA829BF6802006E1E6A /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		C7C1869329D18A4B00E2BAC4 /* PSFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSFlowLayout.swift; sourceTree = "<group>"; };
+		C7C1869529D192B100E2BAC4 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,7 @@
 		C744AF5F29BF15EA0035025A /* GroupLayout */ = {
 			isa = PBXGroup;
 			children = (
+				C7C1869229D18A3200E2BAC4 /* FlowLayout */,
 				C744AF6229BF15EA0035025A /* SceneDelegate.swift */,
 				C744AF6429BF15EA0035025A /* ViewController.swift */,
 				C744AF7829BF25CE0035025A /* AppDelegate.swift */,
@@ -72,8 +77,17 @@
 				C744AF7429BF164D0035025A /* CustomLayout.swift */,
 				C744AF7629BF16E20035025A /* Model.swift */,
 				C7B94CA829BF6802006E1E6A /* CollectionViewCell.swift */,
+				C7C1869529D192B100E2BAC4 /* Helpers.swift */,
 			);
 			path = GroupLayout;
+			sourceTree = "<group>";
+		};
+		C7C1869229D18A3200E2BAC4 /* FlowLayout */ = {
+			isa = PBXGroup;
+			children = (
+				C7C1869329D18A4B00E2BAC4 /* PSFlowLayout.swift */,
+			);
+			path = FlowLayout;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,12 +161,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7C1869629D192B100E2BAC4 /* Helpers.swift in Sources */,
 				C744AF7529BF164D0035025A /* CustomLayout.swift in Sources */,
 				C744AF6529BF15EA0035025A /* ViewController.swift in Sources */,
 				C7B94CA929BF6802006E1E6A /* CollectionViewCell.swift in Sources */,
 				C744AF6329BF15EA0035025A /* SceneDelegate.swift in Sources */,
 				C744AF7929BF25CE0035025A /* AppDelegate.swift in Sources */,
 				C744AF7729BF16E20035025A /* Model.swift in Sources */,
+				C7C1869429D18A4B00E2BAC4 /* PSFlowLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
