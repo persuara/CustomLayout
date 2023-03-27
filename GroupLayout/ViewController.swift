@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
     //hiiiii
    lazy var array: [Model] = [
-        .init(size: CGSize(width: widthConstant / 5 - 7, height: 50)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 80)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 40)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 90)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
@@ -22,14 +22,14 @@ class ViewController: UIViewController {
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 90)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 50)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 310)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 210)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 130)),
-        .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 50)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 50)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 60)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 105)),

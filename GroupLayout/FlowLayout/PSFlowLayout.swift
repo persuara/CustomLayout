@@ -69,14 +69,14 @@ class PSFlowLayout: UICollectionViewLayout {
                 
                 if !isHorizontallyAvailable(itemSize.width, minimumInterItemLineSpacing) {
                     allowedToGoNextLine = true
-                    if dic?[keySmall] != nil {
+                    if !keySmall.isEmpty {
                         flowContext.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                     }
                 }
                 
                 layoutAttribute.frame = CGRect(x: flowContext.cursor.x, y: flowContext.cursor.y, width: itemSize.width, height: itemSize.height)
                 if allowedToGoNextLine == true {
-                    keySmall = getTheIndexOfTheBiggestOffsetValue()
+                    keySmall = getTheKeyOfTheLowestIndex()
                     print("\(item) key small: \(keySmall)")
                     
                 }
@@ -92,8 +92,12 @@ class PSFlowLayout: UICollectionViewLayout {
                 } else {
                     flowContext.cursor = CGPoint(x: flowContext.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: flowContext.cursor.y)
                 }
-                removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
+                removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keySmall)
                 lastItemHeight = itemSize.height
+                if item == collectionView.numberOfItems(inSection: section) - 1 {
+                    print("-------")
+                    print(TESTPURPOSE)
+                }
             }
         }
         contentSize = CGSize(width: contentWidth, height: flowContext.cursor.y + lastItemHeight + minimumLineSpacing * 6)
@@ -116,21 +120,21 @@ class PSFlowLayout: UICollectionViewLayout {
     private func isHorizontallyAvailable(_ width: CGFloat, _ minimumInterItemLineSpacing: CGFloat ) -> Bool {
         return flowContext.cursor.x + width + minimumInterItemLineSpacing < contentWidth
     }
-    private func getTheIndexOfTheBiggestOffsetValue() -> String {
+    private func getTheKeyOfTheLowestIndex() -> String {
         var keyToPass: String = ""
         var min = CGFloat.greatestFiniteMagnitude
         TESTPURPOSE.forEach({(key, value) in
             let found = key.matches(for: "[0-9]+", in: key)
             let dF = Double(found[0])!
             print("df = \(dF)")
-            if CGFloat(dF ?? 0.0) < min {
-               min = CGFloat(dF ?? 0.0)
+            if CGFloat(dF ) < min {
+                min = CGFloat(dF )
                keyToPass = key
             }
         })
         return keyToPass
     }
-    private func removeAndUpdateForDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
+    private func removeAndUpdateDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
         dic.removeValue(forKey: key)
     }
 }
