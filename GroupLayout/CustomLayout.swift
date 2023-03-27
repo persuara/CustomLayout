@@ -57,6 +57,7 @@ class CustomLayout: UICollectionViewLayout {
             minimumLineSpacing = delegate.collectionview(collectionView, layout: self, minimumLineSpacing: section)
             minimumInterItemLineSpacing = delegate.collectionview(collectionView, layout: self, minimumInterItemLineSpacing: section)
             var keySmall: String = ""
+            var dic: Dictionary<String, CGFloat> = [:]
             for item in 0..<collectionView.numberOfItems(inSection: section) {
                 var allowablehorizentalSpace: CGFloat = 0.0
                 let indexPath = IndexPath(item: item, section: section)
@@ -66,13 +67,12 @@ class CustomLayout: UICollectionViewLayout {
                 layoutAttributes[key] = layoutAttribute
                 TESTPURPOSE[key] = layoutAttribute
                 
-                var dic: Dictionary<String, CGFloat>?
-                dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
-                keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic!)
+
+                
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                     allowedToGoToNextLine = true
-                    if dic?[keySmall] != nil {
+                    if !keySmall.isEmpty {
                         context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                     }
                 }
@@ -82,28 +82,27 @@ class CustomLayout: UICollectionViewLayout {
                 for i in 0..<layoutAttributes.count - 1 {
                     let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
                         if layoutAttribute.frame.intersects(lastframe) == true {
-                            layoutAttribute.frame = CGRect(x: lastframe.minX,
-                                                           y: lastframe.maxY + minimumLineSpacing,
-                                                           width: itemSize.width,
-                                                           height: itemSize.height)
-                            
-                            context.cursor = CGPoint(x: lastframe.minX, y: lastframe.maxY + minimumLineSpacing)
+                            if !keySmall.isEmpty {
+                                layoutAttribute.frame = CGRect(x: layoutAttributes[keySmall]!.frame.minX,
+                                                               y: lastframe.maxY + minimumLineSpacing,
+                                                               width: itemSize.width,
+                                                               height: itemSize.height)
+                                
+                                context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,
+                                                         y: lastframe.maxY + minimumLineSpacing)
+                            }
                     }
                 }
                 if allowedToGoToNextLine {
-                    context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: (layoutAttributes[keySmall]?.frame.minY)!)
+                    dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
+                    keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic)
+//                    context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: (layoutAttributes[keySmall]?.frame.minY)!)
+                }
+                
+                if !keySmall.isEmpty {
+                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.minY + minimumLineSpacing)
                 } else {
-                    allowablehorizentalSpace = contentWidth + minimumInterItemLineSpacing - (layoutAttribute.frame.maxX)
-//                    for i in 0...countRow {
-//                        var previousFrame = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i, section: section))]?.frame
-//                        print("previous frame: \(previousFrame)")
-//                        previousFrame = CGRect(x: (previousFrame?.minX ?? 0) + allowablehorizentalSpace / CGFloat(countRow), y: context.cursor.y, width: previousFrame?.width ?? 0.0, height: previousFrame?.height ?? 0.0)
-//                        layoutAttributes[keyForSupplimentaryKindOf(indexPath: IndexPath(item: i, section: section))]?.frame = previousFrame!
-//                        print("new frame: \(previousFrame)")
-//                        countRow += 1
-//                    }
-                    layoutAttribute.frame = CGRect(x: allowablehorizentalSpace / 2 , y: 0, width: itemSize.width, height: itemSize.height)
-                    context.cursor = .init(x: layoutAttribute.frame.maxX + allowablehorizentalSpace / 2, y: layoutAttribute.frame.minY)
+                    context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
                 }
                 removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
             }
@@ -123,7 +122,7 @@ class CustomLayout: UICollectionViewLayout {
         return "LayoutAttribute: \(indexPath.item), \(indexPath.section)"
     }
     private func isAvailableSpace(_ width: CGFloat, _ minimumInterItemLineSpacing: CGFloat ) -> Bool {
-        return context.cursor.x + width + minimumInterItemLineSpacing < (contentWidth + collectionView!.contentInset.left)
+        return context.cursor.x + width + minimumInterItemLineSpacing < contentWidth
     }
 
     private func setTheMaxY() -> Dictionary<String,CGFloat> {
@@ -139,7 +138,7 @@ class CustomLayout: UICollectionViewLayout {
            dictionary.updateValue(max, forKey: keyToPass)
            return dictionary
        }
-    
+
     private func getTheOffsetOfEachAttributeFromMax(maxY: Dictionary<String,CGFloat>, key: String) -> Dictionary<String, CGFloat>{
             var offSet: CGFloat = 0.0
             var dictionary: Dictionary<String,CGFloat> = .init()
