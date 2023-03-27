@@ -67,17 +67,21 @@ class CustomLayout: UICollectionViewLayout {
                 TESTPURPOSE[key] = layoutAttribute
                 
                 if !isHorizontallyAvailable(itemSize.width, minimumInterItemLineSpacing) {
+                    print("item does not have space \(item)")
                     allowedToGoNextLine = true
-                    if dic?[keySmall] != nil {
+                    dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
+                    keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic!)
+                    if !keySmall.isEmpty {
                         context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                     }
+                    
                 }
                 
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                 if allowedToGoNextLine == true {
                     dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
                     keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic!)
-                    print("\(item) key small: \(keySmall)")
+//                    print("\(item) key small: \(keySmall)")
                 }
                 for i in 0..<layoutAttributes.count - 1 {
                     let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero

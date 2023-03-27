@@ -70,6 +70,10 @@ class PSFlowLayout: UICollectionViewLayout {
                     allowedToGoNextLine = true
                     if !keySmall.isEmpty {
                         flowContext.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
+                    } else {
+//                        removeAndUpdateDictionary(dic: , key: <#T##String#>)
+//                        keySmall = getTheKeyOfTheLowestIndex()
+//                        flowContext.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
                     }
                 }
                 
@@ -117,7 +121,7 @@ class PSFlowLayout: UICollectionViewLayout {
         return flowContext.cursor.x + width + minimumInterItemLineSpacing < (contentWidth + collectionView!.contentInset.left)
     }
     private func isHorizontallyAvailable(_ width: CGFloat, _ minimumInterItemLineSpacing: CGFloat ) -> Bool {
-        return flowContext.cursor.x + width + minimumInterItemLineSpacing < contentWidth
+        return flowContext.cursor.x + width + minimumInterItemLineSpacing < contentWidth - minimumInterItemLineSpacing * 2
     }
     private func getTheKeyOfTheLowestIndex() -> String {
         var keyToPass: String = ""
