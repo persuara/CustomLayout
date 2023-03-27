@@ -40,6 +40,7 @@ class CustomLayout: UICollectionViewLayout {
     fileprivate var context: Context = .init()
     fileprivate var layoutAttributes: [String: UICollectionViewLayoutAttributes] = [:]
     fileprivate var TESTPURPOSE: [String: UICollectionViewLayoutAttributes] = [:]
+    fileprivate var countRow: Int = 0
     
     
     override func prepare() {
@@ -57,6 +58,7 @@ class CustomLayout: UICollectionViewLayout {
             minimumInterItemLineSpacing = delegate.collectionview(collectionView, layout: self, minimumInterItemLineSpacing: section)
             var keySmall: String = ""
             for item in 0..<collectionView.numberOfItems(inSection: section) {
+                var allowablehorizentalSpace: CGFloat = 0.0
                 let indexPath = IndexPath(item: item, section: section)
                 let layoutAttribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 let key = keyForLayoutAttributeItems(indexPath: indexPath)
@@ -84,14 +86,26 @@ class CustomLayout: UICollectionViewLayout {
                                                            y: lastframe.maxY + minimumLineSpacing,
                                                            width: itemSize.width,
                                                            height: itemSize.height)
-                            context.cursor = CGPoint(x: lastframe.minX , y: lastframe.maxY + minimumLineSpacing)
+                            
+                            context.cursor = CGPoint(x: lastframe.minX, y: lastframe.maxY + minimumLineSpacing)
+                        } else {
+                            print(item)
                         }
                 }
                 if allowedToGoToNextLine {
-                    print("item NO: \(item) ----> \(keySmall)")
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: (layoutAttributes[keySmall]?.frame.minY)!)
                 } else {
-                    context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
+                    allowablehorizentalSpace = contentWidth + minimumInterItemLineSpacing - (layoutAttribute.frame.maxX)
+//                    for i in 0...countRow {
+//                        var previousFrame = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i, section: section))]?.frame
+//                        print("previous frame: \(previousFrame)")
+//                        previousFrame = CGRect(x: (previousFrame?.minX ?? 0) + allowablehorizentalSpace / CGFloat(countRow), y: context.cursor.y, width: previousFrame?.width ?? 0.0, height: previousFrame?.height ?? 0.0)
+//                        layoutAttributes[keyForSupplimentaryKindOf(indexPath: IndexPath(item: i, section: section))]?.frame = previousFrame!
+//                        print("new frame: \(previousFrame)")
+//                        countRow += 1
+//                    }
+                    layoutAttribute.frame = CGRect(x: allowablehorizentalSpace / 2 , y: 0, width: itemSize.width, height: itemSize.height)
+                    context.cursor = .init(x: layoutAttribute.frame.maxX + allowablehorizentalSpace / 2, y: layoutAttribute.frame.minY)
                 }
                 removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
             }
