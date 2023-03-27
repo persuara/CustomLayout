@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         .init(size: CGSize(width: widthConstant / 2 - 7, height: 50)),
         .init(size: CGSize(width: widthConstant / 1.5 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 10 - 7, height: 150)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 4 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 5.5 - 7, height: 150)),
         .init(size: CGSize(width: widthConstant / 1.5 - 7, height: 150)),
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         let view: UICollectionView = .init(frame: .zero, collectionViewLayout: layout)
         view.delegate = self
         view.dataSource = self
-        layout.delegate = self
+        layout.delegate = self 
 //        layout.collectionView?.layoutSubviews()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.reuseIdentifier)

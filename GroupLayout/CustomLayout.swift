@@ -163,6 +163,7 @@ class CustomLayout: UICollectionViewLayout {
     private func removeAndUpdateForDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
         dic.removeValue(forKey: key)
     }
+     
 }
 struct Context {
     var cursor: CGPoint = .zero
