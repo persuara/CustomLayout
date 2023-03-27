@@ -73,7 +73,10 @@ class CustomLayout: UICollectionViewLayout {
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                     allowedToGoToNextLine = true
                     if !keySmall.isEmpty {
-                        context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
+                        print("item: \(item)")
+                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.minY)
+                    } else {
+                        context.cursor = CGPoint(x: layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: 1, section: section))]!.frame.minX, y: layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: 1, section: section))]!.frame.maxY + minimumLineSpacing)
                     }
                 }
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
@@ -87,8 +90,7 @@ class CustomLayout: UICollectionViewLayout {
                                                                y: lastframe.maxY + minimumLineSpacing,
                                                                width: itemSize.width,
                                                                height: itemSize.height)
-                                
-                                context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,
+                                context.cursor = CGPoint(x:layoutAttributes[keySmall]!.frame.maxX + minimumInterItemLineSpacing,
                                                          y: lastframe.maxY + minimumLineSpacing)
                             }
                     }
@@ -96,11 +98,10 @@ class CustomLayout: UICollectionViewLayout {
                 if allowedToGoToNextLine {
                     dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
                     keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic)
-//                    context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: (layoutAttributes[keySmall]?.frame.minY)!)
                 }
-                
                 if !keySmall.isEmpty {
-                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.minY + minimumLineSpacing)
+                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.minY)
+                    
                 } else {
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
                 }
