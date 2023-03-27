@@ -72,12 +72,14 @@ class CustomLayout: UICollectionViewLayout {
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                     allowedToGoToNextLine = true
+                    if allowedToGoToNextLine {
+                        dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
+                        keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic)
+                    }
                     if !keySmall.isEmpty {
                         print("item: \(item)")
                         context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.minY)
-                    } else {
-                        context.cursor = CGPoint(x: layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: 1, section: section))]!.frame.minX, y: layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: 1, section: section))]!.frame.maxY + minimumLineSpacing)
-                    }
+                    } 
                 }
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                 
