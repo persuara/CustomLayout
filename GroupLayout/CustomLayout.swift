@@ -71,7 +71,6 @@ class CustomLayout: UICollectionViewLayout {
                     if dic?[keySmall] != nil {
                         context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                     }
-//                    removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
                 }
                 
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
@@ -128,7 +127,6 @@ class CustomLayout: UICollectionViewLayout {
         dictionary.updateValue(max, forKey: keyToPass)
         return dictionary
     }
-    
     private func getTheOffsetOfEachAttributeFromMax(maxY: Dictionary<String,CGFloat>, key: String) -> Dictionary<String, CGFloat>{
         var offSet: CGFloat = 0.0
         var dictionary: Dictionary<String,CGFloat> = .init()
