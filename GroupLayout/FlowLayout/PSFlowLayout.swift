@@ -40,6 +40,7 @@ class PSFlowLayout: UICollectionViewLayout {
     fileprivate var flowContext: FlowContext = .init()
     fileprivate var layoutAttributes: [String: UICollectionViewLayoutAttributes] = [:]
     fileprivate var TESTPURPOSE: [String: UICollectionViewLayoutAttributes] = [:]
+    fileprivate var lastItemHeight: CGFloat = 0.0
     
     
     override func prepare() {
@@ -92,9 +93,10 @@ class PSFlowLayout: UICollectionViewLayout {
                     flowContext.cursor = CGPoint(x: flowContext.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: flowContext.cursor.y)
                 }
                 removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
+                lastItemHeight = itemSize.height
             }
         }
-        contentSize = CGSize(width: contentWidth, height: flowContext.cursor.y )
+        contentSize = CGSize(width: contentWidth, height: flowContext.cursor.y + lastItemHeight + minimumLineSpacing * 6)
     }
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         layoutAttributes[keyForLayoutAttributeItems(indexPath: indexPath)]
