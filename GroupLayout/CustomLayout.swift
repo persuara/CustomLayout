@@ -88,9 +88,7 @@ class CustomLayout: UICollectionViewLayout {
                                                            height: itemSize.height)
                             
                             context.cursor = CGPoint(x: lastframe.minX, y: lastframe.maxY + minimumLineSpacing)
-                        } else {
-                            print(item)
-                        }
+                    }
                 }
                 if allowedToGoToNextLine {
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: (layoutAttributes[keySmall]?.frame.minY)!)
