@@ -66,7 +66,7 @@ class CustomLayout: UICollectionViewLayout {
                 
                 TESTPURPOSE[key] = layoutAttribute
                 
-                if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
+                if !isHorizontallyAvailable(itemSize.width, minimumInterItemLineSpacing) {
                     allowedToGoNextLine = true
                     if dic?[keySmall] != nil {
                         context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
@@ -95,7 +95,7 @@ class CustomLayout: UICollectionViewLayout {
                 removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
             }
         }
-        contentSize = CGSize(width: contentWidth, height: context.cursor.y + contentheight / 2)
+        contentSize = CGSize(width: contentWidth, height: context.cursor.y )
     }
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         layoutAttributes[keyForLayoutAttributeItems(indexPath: indexPath)]
