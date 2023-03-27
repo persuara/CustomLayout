@@ -54,7 +54,6 @@ class PSFlowLayout: UICollectionViewLayout {
         for section in 0..<sections {
             minimumLineSpacing = delegate.collectionview(collectionView, layout: self, minimumLineSpacing: section)
             minimumInterItemLineSpacing = delegate.collectionview(collectionView, layout: self, minimumInterItemLineSpacing: section)
-            var dic: Dictionary<String, CGFloat>?
             var keySmall: String = ""
             var allowedToGoNextLine: Bool = false
             for item in 0..<collectionView.numberOfItems(inSection: section) {
