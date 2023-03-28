@@ -68,21 +68,18 @@ class PSFlowLayout: UICollectionViewLayout {
                 
                 if !isHorizontallyAvailable(itemSize.width, minimumInterItemLineSpacing) {
                     allowedToGoNextLine = true
-                    if !keySmall.isEmpty {
-                        flowContext.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
-                    } else {
-//                        removeAndUpdateDictionary(dic: , key: <#T##String#>)
-//                        keySmall = getTheKeyOfTheLowestIndex()
-//                        flowContext.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
-                    }
+                    keySmall = getTheKeyOfTheLowestIndex()
+                    flowContext.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                 }
                 
-                layoutAttribute.frame = CGRect(x: flowContext.cursor.x, y: flowContext.cursor.y, width: itemSize.width, height: itemSize.height)
                 if allowedToGoNextLine == true {
                     keySmall = getTheKeyOfTheLowestIndex()
-                    print("\(item) key small: \(keySmall)")
-                    
                 }
+                
+                if !keySmall.isEmpty {
+                    flowContext.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                }
+                layoutAttribute.frame = CGRect(x: flowContext.cursor.x, y: flowContext.cursor.y, width: itemSize.width, height: itemSize.height)
                 for i in 0..<layoutAttributes.count - 1 {
                     let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
                         if layoutAttribute.frame.intersects(lastframe) == true {
@@ -90,17 +87,9 @@ class PSFlowLayout: UICollectionViewLayout {
                             flowContext.cursor = CGPoint(x: lastframe.minX + minimumInterItemLineSpacing, y: lastframe.maxY + minimumLineSpacing)
                         }
                 }
-                if !keySmall.isEmpty {
-                    flowContext.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
-                } else {
-                    flowContext.cursor = CGPoint(x: flowContext.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: flowContext.cursor.y)
-                }
+                flowContext.cursor = CGPoint(x: flowContext.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: flowContext.cursor.y)
                 removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keySmall)
                 lastItemHeight = itemSize.height
-                if item == collectionView.numberOfItems(inSection: section) - 1 {
-                    print("-------")
-                    print(TESTPURPOSE)
-                }
             }
         }
         contentSize = CGSize(width: contentWidth, height: flowContext.cursor.y + lastItemHeight + minimumLineSpacing * 6)
@@ -129,7 +118,6 @@ class PSFlowLayout: UICollectionViewLayout {
         TESTPURPOSE.forEach({(key, value) in
             let found = key.matches(for: "[0-9]+", in: key)
             let dF = Double(found[0])!
-            print("df = \(dF)")
             if CGFloat(dF ) < min {
                 min = CGFloat(dF )
                keyToPass = key
