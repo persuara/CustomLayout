@@ -64,24 +64,27 @@ class CustomLayout: UICollectionViewLayout {
                 let itemSize = delegate.collectionView(collectionView, layout: self, sizeForItemAt: item)
                 layoutAttributes[key] = layoutAttribute
                 
-                TESTPURPOSE[key] = layoutAttribute
-                
                 if !isHorizontallyAvailable(itemSize.width, minimumInterItemLineSpacing) {
-                    print("item does not have space \(item)")
                     allowedToGoNextLine = true
                     dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
                     keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic!)
+                    print(keySmall)
                     if !keySmall.isEmpty {
                         context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                     }
                 }
                 
-                layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                 if allowedToGoNextLine == true {
                     dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
                     keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic!)
-//                    print("\(item) key small: \(keySmall)")
                 }
+                
+                if !keySmall.isEmpty {
+                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                }
+                
+                layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+                
                 for i in 0..<layoutAttributes.count - 1 {
                     let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
                         if layoutAttribute.frame.intersects(lastframe) == true {
@@ -89,12 +92,10 @@ class CustomLayout: UICollectionViewLayout {
                             context.cursor = CGPoint(x: lastframe.minX + minimumInterItemLineSpacing, y: lastframe.maxY + minimumLineSpacing)
                         }
                 }
-                if !keySmall.isEmpty {
-                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
-                } else {
-                    context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
-                }
+                
+                context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
                 removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
+                TESTPURPOSE[key] = layoutAttribute
             }
         }
         contentSize = CGSize(width: contentWidth, height: context.cursor.y )

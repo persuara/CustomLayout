@@ -10,20 +10,20 @@ import UIKit
 class ViewController: UIViewController {
     //hiiiii
    lazy var array: [Model] = [
-        .init(size: CGSize(width: 110 , height: 80)),
-        .init(size: CGSize(width: 110, height: 40)),
-        .init(size: CGSize(width: 110, height: 90)),
-        .init(size: CGSize(width: 110, height: 150)),
-        .init(size: CGSize(width: 110, height: 200)),
-        .init(size: CGSize(width: 110, height: 130)),
-        .init(size: CGSize(width: 110, height: 110)),
-        .init(size: CGSize(width: 110, height: 120)),
-        .init(size: CGSize(width: 110, height: 70)),
-        .init(size: CGSize(width: 110, height: 90)),
-        .init(size: CGSize(width: 110, height: 50)),
-        .init(size: CGSize(width: 110, height: 150)),
-        .init(size: CGSize(width: 110, height: 310)),
-        .init(size: CGSize(width: 110, height: 150)),
+        .init(size: CGSize(width: 100 , height: 80)),
+        .init(size: CGSize(width: 100, height: 40)),
+        .init(size: CGSize(width: 100, height: 90)),
+        .init(size: CGSize(width: 100, height: 150)),
+        .init(size: CGSize(width: 100, height: 200)),
+        .init(size: CGSize(width: 100, height: 130)),
+        .init(size: CGSize(width: 100, height: 110)),
+        .init(size: CGSize(width: 100, height: 120)),
+        .init(size: CGSize(width: 100, height: 70)),
+        .init(size: CGSize(width: 100, height: 90)),
+        .init(size: CGSize(width: 100, height: 50)),
+        .init(size: CGSize(width: 100, height: 150)),
+        .init(size: CGSize(width: 100, height: 310)),
+        .init(size: CGSize(width: 100, height: 150)),
 //        .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
 //        .init(size: CGSize(width: widthConstant / 5 - 7, height: 210)),
 //        .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
@@ -61,7 +61,7 @@ class ViewController: UIViewController {
     
     
     
-    lazy var layout: PSFlowLayout = .init()
+    lazy var layout: CustomLayout = .init()
     lazy var collectionview: UICollectionView = {
         let view: UICollectionView = .init(frame: .zero, collectionViewLayout: layout)
         view.delegate = self
