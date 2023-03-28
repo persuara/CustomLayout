@@ -62,13 +62,13 @@ class CustomLayout: UICollectionViewLayout {
             
             for item in 0..<collectionView.numberOfItems(inSection: section) {
                 var intersectsBaby: Bool = false
-//                var allowablehorizentalSpace: CGFloat = 0.0
+                //                var allowablehorizentalSpace: CGFloat = 0.0
                 let indexPath = IndexPath(item: item, section: section)
                 let layoutAttribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 let key = keyForLayoutAttributeItems(indexPath: indexPath)
                 let itemSize = delegate.collectionView(collectionView, layout: self, sizeForItemAt: item)
                 layoutAttributes[key] = layoutAttribute
-    
+                
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                     print("next Row: \(item)")
@@ -94,114 +94,150 @@ class CustomLayout: UICollectionViewLayout {
                     if itemSize.width > layoutAttributes[keySmall]!.frame.maxX && broItIntersect == true {
                         let yoffSet = layoutAttributes[keyIntersectie]!.frame.maxY - layoutAttributes[keySmall]!.frame.maxY
                         context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + yoffSet + minimumLineSpacing)
-                        broItIntersect = !broItIntersect
+                        //                        broItIntersect = !broItIntersect
                     } else {
-                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.maxX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
                     }
                 }
                 
                 if allowedToGoToNextLine {
                     dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
                     keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic)
+                    
+                    //                    var broItIntersect: Bool = false
+                    //                    var keyIntersectie: String = ""
+                    //                    var layouties: [UICollectionViewLayoutAttributes] = []
+                    //
+                    //                    for i in 0..<layoutAttributes.count - 1 {
+                    //                        let layoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i, section: section))]!
+                    //                        if itemSize.width > layoutie.frame.maxX {
+                    //                            layouties.append(layoutie)
+                    //                            broItIntersect = true
+                    //                        }
+                    //                    }
+                    //                    if layouties.count != 0 {
+                    //                        keyIntersectie = layoutAttributes.getTheKey(of: layouties[layouties.count - 1])
+                    //                    }
+                    //                    if itemSize.width > layoutAttributes[keySmall]!.frame.maxX && broItIntersect == true {
+                    //                        let yoffSet = layoutAttributes[keyIntersectie]!.frame.maxY - layoutAttributes[keySmall]!.frame.maxY
+                    //                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + yoffSet + minimumLineSpacing)
+                    ////                        broItIntersect = !broItIntersect
+                    //                    } else {
+                    //                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                    //                    }
                 }
                 
                 if !keySmall.isEmpty {
-                        if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
-                            context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.minY)
-                        } else {
-                                context.cursor = .init(x: context.cursor.x, y: context.cursor.y)
-                        }
+                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
                 }
                 
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                 
-                //----Mark TEST
+                //MARK: - ORIGINAL
+                //                for i in 0..<layoutAttributes.count - 1 {
+                //                    let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
+                //                        if layoutAttribute.frame.intersects(lastframe) == true {
+                //                            if !keySmall.isEmpty {
+                //                                if item != 3 {
+                //                                    print("------Alert Intersection!------ (  \(item)  ) with (  \(i)   )")
+                //                                    layoutAttribute.frame = CGRect(x: lastframe.minX,
+                //                                                                   y: lastframe.maxY + minimumLineSpacing,
+                //                                                                   width: itemSize.width,
+                //                                                                   height: itemSize.height)
+                //                                    context.cursor = CGPoint(x: lastframe.minX + minimumInterItemLineSpacing,
+                //                                                             y: lastframe.maxY + minimumLineSpacing)
+                //                                }
+                //                            }
+                //                    }
+                //                }
+                //MARK: - +++++++ TEST ++++++
                 for i in 0..<layoutAttributes.count - 1 {
-                    let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
-                        if layoutAttribute.frame.intersects(lastframe) == true {
-                            if !keySmall.isEmpty {
-                                print("------Alert Intersection!------ (  \(item)  ) with (  \(i)   )")
-                                layoutAttribute.frame = CGRect(x: lastframe.minX,
-                                                               y: lastframe.maxY + minimumLineSpacing,
-                                                               width: itemSize.width,
-                                                               height: itemSize.height)
-                                context.cursor = CGPoint(x: lastframe.minX + minimumInterItemLineSpacing,
-                                                         y: lastframe.maxY + minimumLineSpacing)
-                            }
+                    let layoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]
+                    guard layoutie != nil else { return }
+                    var keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
+                    if layoutAttribute.frame.intersects(layoutie!.frame) == true {
+                        print("------Alert Intersection!------ (  \(item)  ) with (  \(i)   )")
+                        let yoffSet = layoutAttributes[keyLayoutie]!.frame.maxY - layoutAttributes[keySmall]!.frame.maxY
+                        layoutAttribute.frame = CGRect(x: context.cursor.x,
+                                                       y: context.cursor.y + yoffSet,
+                                                       width: itemSize.width,
+                                                       height: itemSize.height)
+                        context.cursor = CGPoint(x: context.cursor.x,
+                                                 y: context.cursor.y + yoffSet)
                     }
                 }
-                if allowedToGoToNextLine == false {
-                    context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
-                }
-                TESTPURPOSE[key] = layoutAttribute
-                removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
+            if allowedToGoToNextLine == false {
+                context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
             }
+            TESTPURPOSE[key] = layoutAttribute
+            removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
         }
-        contentSize = CGSize(width: contentWidth, height: context.cursor.y + contentheight)
     }
-    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        layoutAttributes[keyForLayoutAttributeItems(indexPath: indexPath)]
-    }
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        layoutAttributes.values.filter {$0.frame.intersects(rect)}
-    }
-    private func keyForSupplimentaryKindOf(indexPath: IndexPath) -> String {
-        return "Supplimentary: \(indexPath.item), \(indexPath.section)"
-    }
-    private func keyForLayoutAttributeItems(indexPath: IndexPath) -> String {
-        return "LayoutAttribute: \(indexPath.item), \(indexPath.section)"
-    }
-    private func isAvailableSpace(_ width: CGFloat, _ minimumInterItemLineSpacing: CGFloat ) -> Bool {
-        return context.cursor.x + width + minimumInterItemLineSpacing < contentWidth
-    }
+    contentSize = CGSize(width: contentWidth, height: context.cursor.y + contentheight)
+}
+override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    layoutAttributes[keyForLayoutAttributeItems(indexPath: indexPath)]
+}
+override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    layoutAttributes.values.filter {$0.frame.intersects(rect)}
+}
+private func keyForSupplimentaryKindOf(indexPath: IndexPath) -> String {
+    return "Supplimentary: \(indexPath.item), \(indexPath.section)"
+}
+private func keyForLayoutAttributeItems(indexPath: IndexPath) -> String {
+    return "LayoutAttribute: \(indexPath.item), \(indexPath.section)"
+}
+private func isAvailableSpace(_ width: CGFloat, _ minimumInterItemLineSpacing: CGFloat ) -> Bool {
+    return context.cursor.x + width + minimumInterItemLineSpacing < contentWidth
+}
 
-    private func setTheMaxY() -> Dictionary<String,CGFloat> {
-           var max: CGFloat = 0.0
-           var keyToPass: String = ""
-           var dictionary: Dictionary<String,CGFloat> = .init()
-           TESTPURPOSE.forEach({ (key, value ) in
-               if value.frame.maxY >= max {
-                   max = value.frame.maxY
-                   keyToPass = key
-               }
-           })
-           dictionary.updateValue(max, forKey: keyToPass)
-           return dictionary
-       }
-
-    private func getTheOffsetOfEachAttributeFromMax(maxY: Dictionary<String,CGFloat>, key: String) -> Dictionary<String, CGFloat>{
-            var offSet: CGFloat = 0.0
-            var dictionary: Dictionary<String,CGFloat> = .init()
-            TESTPURPOSE.forEach({ (key, value) in
-                offSet = (maxY.first?.value ?? 0.0) - value.frame.maxY
-                dictionary[key] = offSet
-            })
-            return dictionary
+private func setTheMaxY() -> Dictionary<String,CGFloat> {
+    var max: CGFloat = 0.0
+    var keyToPass: String = ""
+    var dictionary: Dictionary<String,CGFloat> = .init()
+    TESTPURPOSE.forEach({ (key, value ) in
+        if value.frame.maxY >= max {
+            max = value.frame.maxY
+            keyToPass = key
         }
-    private func getTheIndexOfTheBiggestOffsetValue(offSet: Dictionary<String, CGFloat>) -> String {
-        var keyToPass: String = ""
-        var max: CGFloat = 0.0
-        offSet.forEach({(key, value) in
-            if value >= max {
-                max = value
-                keyToPass = key
-            }
-        })
-        return keyToPass
-    }
-    private func removeAndUpdateForDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
-        dic.removeValue(forKey: key)
-    }
-    private func getKeyForLayoutAttribute(for cursor: CGPoint) -> String? {
-        var keyToPass: String?
-        layoutAttributes.forEach({ (key, value) in
-            if value.frame.minX == cursor.x && value.frame.minY == cursor.y {
-                keyToPass = key
-            }
-        })
-        return keyToPass
-    }
-     
+    })
+    dictionary.updateValue(max, forKey: keyToPass)
+    return dictionary
+}
+
+private func getTheOffsetOfEachAttributeFromMax(maxY: Dictionary<String,CGFloat>, key: String) -> Dictionary<String, CGFloat>{
+    var offSet: CGFloat = 0.0
+    var dictionary: Dictionary<String,CGFloat> = .init()
+    TESTPURPOSE.forEach({ (key, value) in
+        offSet = (maxY.first?.value ?? 0.0) - value.frame.maxY
+        dictionary[key] = offSet
+    })
+    return dictionary
+}
+private func getTheIndexOfTheBiggestOffsetValue(offSet: Dictionary<String, CGFloat>) -> String {
+    var keyToPass: String = ""
+    var max: CGFloat = 0.0
+    offSet.forEach({(key, value) in
+        if value >= max {
+            max = value
+            keyToPass = key
+        }
+    })
+    return keyToPass
+}
+private func removeAndUpdateForDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
+    dic.removeValue(forKey: key)
+}
+private func getKeyForLayoutAttribute(for cursor: CGPoint) -> String? {
+    var keyToPass: String?
+    layoutAttributes.forEach({ (key, value) in
+        if value.frame.minX == cursor.x && value.frame.minY == cursor.y {
+            keyToPass = key
+        }
+    })
+    return keyToPass
+}
+
 }
 struct Context {
     var cursor: CGPoint = .zero
