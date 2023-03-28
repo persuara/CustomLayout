@@ -154,16 +154,28 @@ class CustomLayout: UICollectionViewLayout {
                 for i in 0..<layoutAttributes.count - 1 {
                     let layoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]
                     guard layoutie != nil else { return }
-                    var keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
+                    let keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
                     if layoutAttribute.frame.intersects(layoutie!.frame) == true {
                         print("------Alert Intersection!------ (  \(item)  ) with (  \(i)   )")
                         let yoffSet = layoutAttributes[keyLayoutie]!.frame.maxY - layoutAttributes[keySmall]!.frame.maxY
-                        layoutAttribute.frame = CGRect(x: context.cursor.x,
-                                                       y: context.cursor.y + yoffSet,
-                                                       width: itemSize.width,
-                                                       height: itemSize.height)
-                        context.cursor = CGPoint(x: context.cursor.x,
-                                                 y: context.cursor.y + yoffSet)
+                        let deciderX = layoutAttributes[keySmall]!.frame.minX - layoutAttributes[keyLayoutie]!.frame.minX
+                        let xoffSet = layoutAttributes[keyLayoutie]!.frame.maxX - layoutAttributes[keySmall]!.frame.minX
+                        if deciderX < 0 {
+                            layoutAttribute.frame = CGRect(x: context.cursor.x ,
+                                                           y: context.cursor.y + yoffSet,
+                                                           width: itemSize.width,
+                                                           height: itemSize.height)
+                            context.cursor = CGPoint(x: context.cursor.x,
+                                                     y:  context.cursor.y + yoffSet)
+                        } else {
+                            layoutAttribute.frame = CGRect(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
+                                                           y: context.cursor.y + yoffSet,
+                                                           width: itemSize.width,
+                                                           height: itemSize.height)
+                            context.cursor = CGPoint(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
+                                                     y:  context.cursor.y + yoffSet)
+                        }
+                        
                     }
                 }
             if allowedToGoToNextLine == false {
