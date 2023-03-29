@@ -15,8 +15,8 @@ class ViewController: UIViewController {
         .init(size: CGSize(width: 70, height: 50)),
         .init(size: CGSize(width: 170, height: 200)),
         .init(size: CGSize(width: 150, height: 150)),
-        .init(size: CGSize(width: 140, height: 100)),
-        .init(size: CGSize(width: 150, height: 180)),
+        .init(size: CGSize(width: 280, height: 100)),
+        .init(size: CGSize(width: 80, height: 180)),
         .init(size: CGSize(width: 100, height: 80)),
         .init(size: CGSize(width: 130, height: 90)),
         .init(size: CGSize(width: 50, height: 100)),
@@ -73,7 +73,7 @@ class ViewController: UIViewController {
     
     
     
-    lazy var layout: CustomLayout = .init()
+    lazy var layout: DifferentApproach = .init()
     lazy var collectionview: UICollectionView = {
         let view: UICollectionView = .init(frame: .zero, collectionViewLayout: layout)
         view.delegate = self
