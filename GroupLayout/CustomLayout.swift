@@ -62,7 +62,6 @@ class CustomLayout: UICollectionViewLayout {
             
             for item in 0..<collectionView.numberOfItems(inSection: section) {
                 var intersectsBaby: Bool = false
-                //                var allowablehorizentalSpace: CGFloat = 0.0
                 let indexPath = IndexPath(item: item, section: section)
                 let layoutAttribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 let key = keyForLayoutAttributeItems(indexPath: indexPath)
@@ -94,7 +93,6 @@ class CustomLayout: UICollectionViewLayout {
                     if itemSize.width > layoutAttributes[keySmall]!.frame.maxX && broItIntersect == true {
                         let yoffSet = layoutAttributes[keyIntersectie]!.frame.maxY - layoutAttributes[keySmall]!.frame.maxY
                         context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + yoffSet + minimumLineSpacing)
-                        //                        broItIntersect = !broItIntersect
                     } else {
                         context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
                     }
@@ -132,7 +130,10 @@ class CustomLayout: UICollectionViewLayout {
                 }
                 
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
-                
+                if item == 4 {
+                    print("++_+_+")
+                    print(layoutAttribute.frame)
+                }
                 //MARK: - ORIGINAL
                 //                for i in 0..<layoutAttributes.count - 1 {
                 //                    let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
@@ -157,23 +158,24 @@ class CustomLayout: UICollectionViewLayout {
                     let keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
                     if layoutAttribute.frame.intersects(layoutie!.frame) == true {
                         print("------Alert Intersection!------ (  \(item)  ) with (  \(i)   )")
+                        //MARK: - Check if there's vertical space as well! NOT IMPLEMENTED YET
                         let yoffSet = layoutAttributes[keyLayoutie]!.frame.maxY - layoutAttributes[keySmall]!.frame.maxY
                         let deciderX = layoutAttributes[keySmall]!.frame.minX - layoutAttributes[keyLayoutie]!.frame.minX
                         let xoffSet = layoutAttributes[keyLayoutie]!.frame.maxX - layoutAttributes[keySmall]!.frame.minX
                         if deciderX < 0 {
                             layoutAttribute.frame = CGRect(x: context.cursor.x ,
-                                                           y: context.cursor.y + yoffSet,
+                                                           y: context.cursor.y + yoffSet + minimumLineSpacing,
                                                            width: itemSize.width,
                                                            height: itemSize.height)
-                            context.cursor = CGPoint(x: context.cursor.x,
-                                                     y:  context.cursor.y + yoffSet)
+//                            context.cursor = CGPoint(x: context.cursor.x,
+//                                                     y:  context.cursor.y + yoffSet)
                         } else {
                             layoutAttribute.frame = CGRect(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
-                                                           y: context.cursor.y + yoffSet,
+                                                           y: context.cursor.y /*+ yoffSet*/,
                                                            width: itemSize.width,
                                                            height: itemSize.height)
-                            context.cursor = CGPoint(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
-                                                     y:  context.cursor.y + yoffSet)
+//                            context.cursor = CGPoint(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
+//                                                     y:  context.cursor.y + yoffSet)
                         }
                         
                     }
@@ -181,6 +183,7 @@ class CustomLayout: UICollectionViewLayout {
             if allowedToGoToNextLine == false {
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
             }
+//               
             TESTPURPOSE[key] = layoutAttribute
             removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
         }
