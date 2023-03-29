@@ -15,6 +15,7 @@
 		C744AF7529BF164D0035025A /* CustomLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C744AF7429BF164D0035025A /* CustomLayout.swift */; };
 		C744AF7729BF16E20035025A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C744AF7629BF16E20035025A /* Model.swift */; };
 		C744AF7929BF25CE0035025A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C744AF7829BF25CE0035025A /* AppDelegate.swift */; };
+		C794C0C529D4966200D13578 /* DifferentApproach.swift in Sources */ = {isa = PBXBuildFile; fileRef = C794C0C429D4966200D13578 /* DifferentApproach.swift */; };
 		C7B94CA929BF6802006E1E6A /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B94CA829BF6802006E1E6A /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		C744AF7429BF164D0035025A /* CustomLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLayout.swift; sourceTree = "<group>"; };
 		C744AF7629BF16E20035025A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		C744AF7829BF25CE0035025A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C794C0C429D4966200D13578 /* DifferentApproach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifferentApproach.swift; sourceTree = "<group>"; };
 		C7B94CA829BF6802006E1E6A /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -46,6 +48,7 @@
 		C744AF5429BF15EA0035025A = {
 			isa = PBXGroup;
 			children = (
+				C794C0C429D4966200D13578 /* DifferentApproach.swift */,
 				C744AF5F29BF15EA0035025A /* GroupLayout */,
 				C744AF5E29BF15EA0035025A /* Products */,
 			);
@@ -152,6 +155,7 @@
 				C7B94CA929BF6802006E1E6A /* CollectionViewCell.swift in Sources */,
 				C744AF6329BF15EA0035025A /* SceneDelegate.swift in Sources */,
 				C744AF7929BF25CE0035025A /* AppDelegate.swift in Sources */,
+				C794C0C529D4966200D13578 /* DifferentApproach.swift in Sources */,
 				C744AF7729BF16E20035025A /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
