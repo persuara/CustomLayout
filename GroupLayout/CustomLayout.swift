@@ -113,14 +113,12 @@ class CustomLayout: UICollectionViewLayout {
                 
                 if !keySmall.isEmpty {
                     context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
-                    let thisItemFrame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                     
                     if context.cursor.x + itemSize.width < layoutAttributes[keySmall]!.frame.maxX {
-                        xOffSetKeySmall = layoutAttributes[keySmall]!.frame.maxX - context.cursor.x
+                        xOffSetKeySmall = layoutAttributes[keySmall]!.frame.maxX - context.cursor.x + itemSize.width + minimumInterItemLineSpacing
                         couldFit = true
-                        LEFTOVERPurpose[keySmall] = layoutAttributes[keySmall]!
+//                        LEFTOVERPurpose[keySmall] = layoutAttributes[keySmall]!
                     }
-                    
                     if couldFit == true {
                         LEFTOVERPurpose[keySmall] = layoutAttributes[keySmall]
                         print("\(item) -> Could Fit? \(couldFit)")
@@ -133,6 +131,25 @@ class CustomLayout: UICollectionViewLayout {
                 //MARK: - +++++++ TEST ++++++
                 for i in 0..<layoutAttributes.count - 1 {
                     let layoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]
+                    // newly added:
+                    var testLayoutie: UICollectionViewLayoutAttributes = .init()
+                    var testKeyLayoutie: String = ""
+//                    if item == 4  {
+//                        if i > 0 {
+//                            print(" item \(i)")
+//                            testLayoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i - 1, section: section))]!
+//                            testKeyLayoutie = layoutAttributes.getTheKey(of: testLayoutie)
+//
+//                            if !layoutAttribute.frame.intersects(testLayoutie.frame) {
+//                                let xOffsetKT = layoutAttributes[keySmall]!.frame.minX - layoutAttributes[testKeyLayoutie]!.frame.maxX
+//                                if xOffsetKT > 0 {
+//                                    layoutAttribute.frame = CGRect(x: xOffsetKT ,
+//                                                                   y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+//                                }
+//                            }
+//                        }
+//                    }
+                    // ended added
                     guard layoutie != nil else { return }
                     let keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
                     if layoutAttribute.frame.intersects(layoutie!.frame) == true {
@@ -156,17 +173,19 @@ class CustomLayout: UICollectionViewLayout {
 //                            context.cursor = CGPoint(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
 //                                                     y:  context.cursor.y + yoffSet)
                         }
-                        
-                    } else {
-                        
                     }
                 }
+                // MARK: - TEST 2
+                
             if allowedToGoToNextLine == false {
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
             }
-//               
-            TESTPURPOSE[key] = layoutAttribute
-            removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
+                TESTPURPOSE[key] = layoutAttribute
+//                guard TESTPURPOSE[keySmall] != nil else { return }
+//                if layoutAttribute.frame.maxX > TESTPURPOSE[keySmall]!.frame.maxX && {
+//                    print("deleated: \(keySmall)")
+                    removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
+//                }
         }
     }
     contentSize = CGSize(width: contentWidth, height: context.cursor.y + contentheight)
