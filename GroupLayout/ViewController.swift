@@ -10,63 +10,63 @@ import UIKit
 class ViewController: UIViewController {
     
    lazy var array: [Model] = [
-        .init(size: CGSize(width: 170, height: 200)),
-        .init(size: CGSize(width: 130, height: 100)),
-        .init(size: CGSize(width: 120, height: 190)),
-        .init(size: CGSize(width: 130, height: 150)),
-        .init(size: CGSize(width: 150, height: 290)),
-        .init(size: CGSize(width: 130, height: 130)),
-        .init(size: CGSize(width: 90, height: 110)),
-        .init(size: CGSize(width: 50, height: 80)),
-        .init(size: CGSize(width: 55, height: 50)),
-        .init(size: CGSize(width: widthConstant / 2.5 - 7, height: 50)),
-        .init(size: CGSize(width: widthConstant / 2 - 7, height: 50)),
-        .init(size: CGSize(width: widthConstant / 1.5 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 5 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 4 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 5.5 - 7, height: 150)),
-        .init(size: CGSize(width: widthConstant / 1.5 - 7, height: 150)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 2 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//            .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//            .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 2 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 2 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 3 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
-//           .init(size: CGSize(width: widthConstant / 4 - 7, height: widthConstant / 4 - 7)),
+        .init(size: CGSize(width: 150, height: 90)),
+        .init(size: CGSize(width: 70, height: 50)),
+        .init(size: CGSize(width: 170, height: 250)),
+        .init(size: CGSize(width: 150, height: 150)),
+        .init(size: CGSize(width: 140, height: 100)),
+        .init(size: CGSize(width: 150, height: 180)),
+        .init(size: CGSize(width: 100, height: 80)),
+        .init(size: CGSize(width: 150, height: 90)),
+        .init(size: CGSize(width: 50, height: 100)),
+        .init(size: CGSize(width: 150, height: 100)),
+        .init(size: CGSize(width: widthConstant / 2 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 2 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 2 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
    ]
 
     
@@ -105,7 +105,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseIdentifier, for: indexPath) as! CollectionViewCell
-        cell.backgroundColor = .blue.withAlphaComponent(0.3)
+        cell.backgroundColor = .systemBlue.withAlphaComponent(0.4)
         cell.label.text = "\(indexPath.item)"
         cell.layer.cornerRadius = 15
         return cell
@@ -117,11 +117,11 @@ extension ViewController: CustomLayoutDelegate {
     }
     
     func collectionview(_ collectionview: UICollectionView, layout: UICollectionViewLayout, minimumLineSpacing section: Int) -> CGFloat {
-        5
+        1
     }
     
     func collectionview(_ collectionview: UICollectionView, layout: UICollectionViewLayout, minimumInterItemLineSpacing section: Int) -> CGFloat {
-        5
+        1
     }
     
     

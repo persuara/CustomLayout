@@ -61,6 +61,7 @@ class CustomLayout: UICollectionViewLayout {
             var dic: Dictionary<String, CGFloat> = [:]
             var couldFit: Bool = false
             var xOffSetKeySmall: CGFloat = 0.0
+            var nextCouldFit: Bool = false
             
             for item in 0..<collectionView.numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
@@ -72,6 +73,7 @@ class CustomLayout: UICollectionViewLayout {
                 
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
+                    
                     print("next Row: \(item)")
                     allowedToGoToNextLine = true
                     dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
@@ -105,27 +107,24 @@ class CustomLayout: UICollectionViewLayout {
                         LEFTOVERPurpose[keySmall] = layoutAttributes[keySmall]!
                     }
                 }
-                
+                // MARK: -----------
                 if allowedToGoToNextLine {
                     dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY(), key: key)
                     keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic)
                 }
                 
                 if !keySmall.isEmpty {
-                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
                     
                     if context.cursor.x + itemSize.width < layoutAttributes[keySmall]!.frame.maxX {
+                        nextCouldFit = true
                         xOffSetKeySmall = layoutAttributes[keySmall]!.frame.maxX - context.cursor.x + itemSize.width + minimumInterItemLineSpacing
-                        couldFit = true
-//                        LEFTOVERPurpose[keySmall] = layoutAttributes[keySmall]!
                     }
-                    if couldFit == true {
-                        LEFTOVERPurpose[keySmall] = layoutAttributes[keySmall]
-                        print("\(item) -> Could Fit? \(couldFit)")
-                        couldFit = !couldFit
-                    }
+//                    if nextCouldFit {
+//                        context.cursor = CGPoint(x: layoutAttribute.frame.maxX + minimumInterItemLineSpacing, y: layoutAttribute.frame.minY )
+//                    } else {
+                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+//                    }
                 }
-                
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                 
                 //MARK: - +++++++ TEST ++++++
@@ -134,44 +133,51 @@ class CustomLayout: UICollectionViewLayout {
                     // newly added:
                     var testLayoutie: UICollectionViewLayoutAttributes = .init()
                     var testKeyLayoutie: String = ""
-//                    if item == 4  {
-//                        if i > 0 {
-//                            print(" item \(i)")
-//                            testLayoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i - 1, section: section))]!
+                    if allowedToGoToNextLine  {
+                        if i > 0 {
+                            testLayoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i-1, section: section))]!
 //                            testKeyLayoutie = layoutAttributes.getTheKey(of: testLayoutie)
-//
-//                            if !layoutAttribute.frame.intersects(testLayoutie.frame) {
-//                                let xOffsetKT = layoutAttributes[keySmall]!.frame.minX - layoutAttributes[testKeyLayoutie]!.frame.maxX
-//                                if xOffsetKT > 0 {
-//                                    layoutAttribute.frame = CGRect(x: xOffsetKT ,
-//                                                                   y: context.cursor.y, width: itemSize.width, height: itemSize.height)
-//                                }
-//                            }
-//                        }
-//                    }
+                            if !layoutAttribute.frame.intersects(testLayoutie.frame) {
+                                let xOffsetKT = layoutAttributes[keySmall]!.frame.minX - testLayoutie.frame.maxX
+                                if item == 8 {
+                                    print("for \(testKeyLayoutie) returns -> \(testLayoutie)")
+                                    print("MinX \(keySmall) - MaxX \(testKeyLayoutie) = \(xOffsetKT)")
+                                    
+                                }
+                                if xOffsetKT > 0 {
+                                    layoutAttribute.frame = CGRect(x: context.cursor.x
+                                                                   - xOffsetKT + minimumInterItemLineSpacing,
+                                                                   y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+                                    context.cursor = .init(x: context.cursor.x
+                                                            - xOffsetKT + minimumInterItemLineSpacing,
+                                                            y: context.cursor.y)
+                                }
+                            }
+                        }
+                    }
                     // ended added
                     guard layoutie != nil else { return }
-                    let keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
+//                    let keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
                     if layoutAttribute.frame.intersects(layoutie!.frame) == true {
                         print("------Alert Intersection!------ (  \(item)  ) with (  \(i)   )")
                         //MARK: - Check if there's vertical space as well! NOT IMPLEMENTED YET
-                        let yoffSet = layoutAttributes[keyLayoutie]!.frame.maxY - layoutAttributes[keySmall]!.frame.maxY
-                        let deciderX = layoutAttributes[keySmall]!.frame.minX - layoutAttributes[keyLayoutie]!.frame.minX
-                        let xoffSet = layoutAttributes[keyLayoutie]!.frame.maxX - layoutAttributes[keySmall]!.frame.minX
+                        let yoffSet = layoutie!.frame.maxY - layoutAttributes[keySmall]!.frame.maxY
+                        let deciderX = layoutAttributes[keySmall]!.frame.minX - layoutie!.frame.minX
+                        let xoffSet = layoutie!.frame.maxX - layoutAttributes[keySmall]!.frame.minX
                         if deciderX < 0 {
                             layoutAttribute.frame = CGRect(x: context.cursor.x ,
                                                            y: context.cursor.y + yoffSet + minimumLineSpacing,
                                                            width: itemSize.width,
                                                            height: itemSize.height)
-//                            context.cursor = CGPoint(x: context.cursor.x,
-//                                                     y:  context.cursor.y + yoffSet)
+                            context.cursor = CGPoint(x: context.cursor.x,
+                                                     y: context.cursor.y + yoffSet + minimumLineSpacing)
                         } else {
                             layoutAttribute.frame = CGRect(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
                                                            y: context.cursor.y /*+ yoffSet*/,
                                                            width: itemSize.width,
                                                            height: itemSize.height)
-//                            context.cursor = CGPoint(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
-//                                                     y:  context.cursor.y + yoffSet)
+                            context.cursor = CGPoint(x: context.cursor.x + xoffSet + minimumInterItemLineSpacing,
+                                                     y: context.cursor.y)
                         }
                     }
                 }
@@ -181,11 +187,7 @@ class CustomLayout: UICollectionViewLayout {
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing, y: context.cursor.y)
             }
                 TESTPURPOSE[key] = layoutAttribute
-//                guard TESTPURPOSE[keySmall] != nil else { return }
-//                if layoutAttribute.frame.maxX > TESTPURPOSE[keySmall]!.frame.maxX && {
-//                    print("deleated: \(keySmall)")
-                    removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
-//                }
+                removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
         }
     }
     contentSize = CGSize(width: contentWidth, height: context.cursor.y + contentheight)
