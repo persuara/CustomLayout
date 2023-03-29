@@ -119,45 +119,39 @@ class CustomLayout: UICollectionViewLayout {
                         nextCouldFit = true
                         xOffSetKeySmall = layoutAttributes[keySmall]!.frame.maxX - context.cursor.x + itemSize.width + minimumInterItemLineSpacing
                     }
-//                    if nextCouldFit {
-//                        context.cursor = CGPoint(x: layoutAttribute.frame.maxX + minimumInterItemLineSpacing, y: layoutAttribute.frame.minY )
-//                    } else {
-                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
-//                    }
+                    //                    if nextCouldFit {
+                    //                        context.cursor = CGPoint(x: layoutAttribute.frame.maxX + minimumInterItemLineSpacing, y: layoutAttribute.frame.minY )
+                    //                    } else {
+                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                    //                    }
                 }
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                 
                 //MARK: - +++++++ TEST ++++++
-                for i in 0..<layoutAttributes.count - 1 {
-                    let layoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]
-                    // newly added:
-                    var testLayoutie: UICollectionViewLayoutAttributes = .init()
-                    var testKeyLayoutie: String = ""
-                    if allowedToGoToNextLine  {
-                        if i > 0 {
-                            testLayoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i-1, section: section))]!
-//                            testKeyLayoutie = layoutAttributes.getTheKey(of: testLayoutie)
+                if allowedToGoToNextLine  {
+                    for i in 1..<layoutAttributes.count - 1 {
+                        let layoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i - 1 , section: section))]
+                        // newly added:
+                        var testLayoutie: UICollectionViewLayoutAttributes = .init()
+                        var testKeyLayoutie: String = ""
+                            testLayoutie = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]!
                             if !layoutAttribute.frame.intersects(testLayoutie.frame) {
                                 let xOffsetKT = layoutAttributes[keySmall]!.frame.minX - testLayoutie.frame.maxX
-                                if item == 8 {
-                                    print("for \(testKeyLayoutie) returns -> \(testLayoutie)")
-                                    print("MinX \(keySmall) - MaxX \(testKeyLayoutie) = \(xOffsetKT)")
-                                    
+                                if item == 5 {
+                                    print(xOffsetKT)
                                 }
                                 if xOffsetKT > 0 {
                                     layoutAttribute.frame = CGRect(x: context.cursor.x
                                                                    - xOffsetKT + minimumInterItemLineSpacing,
                                                                    y: context.cursor.y, width: itemSize.width, height: itemSize.height)
-                                    context.cursor = .init(x: context.cursor.x
-                                                            - xOffsetKT + minimumInterItemLineSpacing,
-                                                            y: context.cursor.y)
+//                                    context.cursor = .init(x: context.cursor.x
+//                                                           - xOffsetKT/*+ minimumInterItemLineSpacing*/,
+//                                                           y: context.cursor.y)
                                 }
-                            }
-                        }
                     }
                     // ended added
                     guard layoutie != nil else { return }
-//                    let keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
+                    //                    let keyLayoutie = layoutAttributes.getTheKey(of: layoutie!)
                     if layoutAttribute.frame.intersects(layoutie!.frame) == true {
                         print("------Alert Intersection!------ (  \(item)  ) with (  \(i)   )")
                         //MARK: - Check if there's vertical space as well! NOT IMPLEMENTED YET
@@ -181,6 +175,7 @@ class CustomLayout: UICollectionViewLayout {
                         }
                     }
                 }
+            }
                 // MARK: - TEST 2
                 
             if allowedToGoToNextLine == false {
