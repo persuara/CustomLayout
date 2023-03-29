@@ -13,7 +13,7 @@ class ViewController: UIViewController {
         .init(size: CGSize(width: 170, height: 200)),
         .init(size: CGSize(width: 130, height: 100)),
         .init(size: CGSize(width: 120, height: 190)),
-        .init(size: CGSize(width: 220, height: 150)),
+        .init(size: CGSize(width: 180, height: 150)),
         .init(size: CGSize(width: 150, height: 290)),
         .init(size: CGSize(width: 130, height: 130)),
         .init(size: CGSize(width: 90, height: 110)),
