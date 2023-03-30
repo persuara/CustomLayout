@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 90)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 80)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 190)),
-        .init(size: CGSize(width: widthConstant / 3.5 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
             .init(size: CGSize(width: widthConstant / 2 - 7, height: 100)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),

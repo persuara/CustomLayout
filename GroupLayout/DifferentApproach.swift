@@ -91,6 +91,7 @@ class DifferentApproach: UICollectionViewLayout {
                     
                     if layoutAttributes[keySmall]!.frame.minX + itemSize.width + minimumInterItemLineSpacing > contentWidth {
                         keyToPlayWith = keyOther
+                        
                     } else {
                         keyToPlayWith = keySmall
                     }
@@ -132,7 +133,12 @@ class DifferentApproach: UICollectionViewLayout {
                 }
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
                 TESTPURPOSE[key] = layoutAttribute
-                removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keyToPlayWith)
+//                if item == 13 {
+//                    removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keyOther)
+//                    removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keyToPlayWith)
+//                } else {
+                    removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keyToPlayWith)
+//                }
                 
             }
         }
