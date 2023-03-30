@@ -39,7 +39,7 @@ class DifferentApproach: UICollectionViewLayout {
     fileprivate var context: Context = .init()
     fileprivate var layoutAttributes: [String: UICollectionViewLayoutAttributes] = [:]
     fileprivate var TESTPURPOSE: [String: UICollectionViewLayoutAttributes] = [:]
-    fileprivate var lastItemHeight: CGFloat = 0.0
+    
     
     
     override func prepare() {
@@ -54,6 +54,8 @@ class DifferentApproach: UICollectionViewLayout {
             minimumLineSpacing = delegate.collectionview(collectionView, layout: self, minimumLineSpacing: section)
             minimumInterItemLineSpacing = delegate.collectionview(collectionView, layout: self, minimumInterItemLineSpacing: section)
             var keySmall: String = ""
+            var keyOther: String = ""
+            var keyToPlayWith: String = ""
             var allowedToGoNextLine: Bool = false
             for item in 0..<collectionView.numberOfItems(inSection: section) {
                 
@@ -63,25 +65,42 @@ class DifferentApproach: UICollectionViewLayout {
                 let itemSize = delegate.collectionView(collectionView, layout: self, sizeForItemAt: item)
                 layoutAttributes[key] = layoutAttribute
                 
-                
-                
                 if !isHorizontallyAvailable(itemSize.width, minimumInterItemLineSpacing) {
+                    print("------  item \(item) goes next line")
                     allowedToGoNextLine = true
+                     
                     keySmall = getTheKeyOfTheLowestIndex()
+                    keyOther = getTheOtherKey(key: keySmall)
                     
+                    if layoutAttributes[keySmall]!.frame.minX + itemSize.width + minimumInterItemLineSpacing > contentWidth {
+                           keyToPlayWith = keySmall
+                    } else {
+                           keyToPlayWith = keyOther
+                        print(" keyToPlayWith \(item)")
+                    }
                     context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
+                    
                 }
                 
-                if allowedToGoNextLine == true {
+                if allowedToGoNextLine {
                     keySmall = getTheKeyOfTheLowestIndex()
+                    keyOther = getTheOtherKey(key: keySmall)
                 }
                 
                 if !keySmall.isEmpty {
-                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                    
+                    if layoutAttributes[keySmall]!.frame.minX + itemSize.width + minimumInterItemLineSpacing > contentWidth {
+                        keyToPlayWith = keyOther
+                    } else {
+                        keyToPlayWith = keySmall
+                    }
+                    
+                    context.cursor = .init(x: layoutAttributes[keyToPlayWith]!.frame.minX, y: layoutAttributes[keyToPlayWith]!.frame.maxY + minimumLineSpacing)
                     
                     let mockFrame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
-                    if mockFrame.minY > layoutAttributes[keySmall]!.frame.maxY {
-                        let yOffset = mockFrame.minY - layoutAttributes[keySmall]!.frame.maxY - minimumLineSpacing
+                    
+                    if mockFrame.minY > layoutAttributes[keyToPlayWith]!.frame.maxY {
+                        let yOffset = mockFrame.minY - layoutAttributes[keyToPlayWith]!.frame.maxY - minimumLineSpacing
                         context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
                     }
                     if item > 0 {
@@ -112,18 +131,9 @@ class DifferentApproach: UICollectionViewLayout {
                     
                 }
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
-               
-                
-                
                 TESTPURPOSE[key] = layoutAttribute
-                removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keySmall)
+                removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keyToPlayWith)
                 
-                lastItemHeight = itemSize.height
-                if item == collectionView.numberOfItems(inSection: section) - 1 {
-                    print("\\\\\\\\\\\\ item: \(item) ////////////")
-                    print(TESTPURPOSE)
-                    print("---------------------------------------")
-                }
             }
         }
         contentSize = CGSize(width: contentWidth, height: setTheMaxY())
@@ -155,6 +165,16 @@ class DifferentApproach: UICollectionViewLayout {
             if CGFloat(dF ) < min {
                 min = CGFloat(dF )
                keyToPass = key
+            }
+        })
+        return keyToPass
+    }
+    private func getTheOtherKey(key: String) -> String {
+        var keyToPass: String = ""
+        TESTPURPOSE.forEach({ (key, value) in
+            let found = key.matches(for: "[0-9]+", in: key)
+            if found[0] != key {
+                keyToPass = key
             }
         })
         return keyToPass

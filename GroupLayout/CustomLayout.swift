@@ -68,7 +68,7 @@ class CustomLayout: UICollectionViewLayout {
                 let layoutAttribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 let key = keyForLayoutAttributeItems(indexPath: indexPath)
                 let itemSize = delegate.collectionView(collectionView, layout: self, sizeForItemAt: item)
-                var intersects: Bool = false
+//                var intersects: Bool = false
                 layoutAttributes[key] = layoutAttribute
                 
                 
@@ -116,7 +116,7 @@ class CustomLayout: UICollectionViewLayout {
                 if !keySmall.isEmpty {
                     
                     if context.cursor.x + itemSize.width < layoutAttributes[keySmall]!.frame.maxX {
-                        nextCouldFit = true
+//                        nextCouldFit = true
                         xOffSetKeySmall = layoutAttributes[keySmall]!.frame.maxX - context.cursor.x + itemSize.width + minimumInterItemLineSpacing
                     }
                     //                    if nextCouldFit {
