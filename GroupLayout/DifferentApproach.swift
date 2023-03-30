@@ -119,14 +119,14 @@ class DifferentApproach: UICollectionViewLayout {
                 removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keySmall)
                 
                 lastItemHeight = itemSize.height
-                if item == 7 || item == 8 || item == 5 || item == 6 {
+                if item == collectionView.numberOfItems(inSection: section) - 1 {
                     print("\\\\\\\\\\\\ item: \(item) ////////////")
                     print(TESTPURPOSE)
                     print("---------------------------------------")
                 }
             }
         }
-        contentSize = CGSize(width: contentWidth, height: context.cursor.y + lastItemHeight + minimumLineSpacing * 6)
+        contentSize = CGSize(width: contentWidth, height: setTheMaxY())
     }
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         layoutAttributes[keyForLayoutAttributeItems(indexPath: indexPath)]
@@ -159,6 +159,15 @@ class DifferentApproach: UICollectionViewLayout {
         })
         return keyToPass
     }
+    private func setTheMaxY() -> CGFloat {
+            var max: CGFloat = 0.0
+            TESTPURPOSE.forEach({(key, value ) in
+                if value.frame.maxY >= max {
+                    max = value.frame.maxY
+                }
+            })
+            return max
+        }
     private func removeAndUpdateDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
         dic.removeValue(forKey: key)
     }
