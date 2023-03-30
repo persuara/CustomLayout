@@ -183,6 +183,11 @@ class CustomLayout: UICollectionViewLayout {
             }
                 TESTPURPOSE[key] = layoutAttribute
                 removeAndUpdateForDictionary(dic: &TESTPURPOSE, key: keySmall)
+                if item == 7 || item == 8 || item == 5 || item == 6 {
+                    print("\\\\\\\\\\\\ item: \(item) ////////////")
+                    print(TESTPURPOSE)
+                    print("---------------------------------------")
+                }
         }
     }
     contentSize = CGSize(width: contentWidth, height: context.cursor.y + contentheight)

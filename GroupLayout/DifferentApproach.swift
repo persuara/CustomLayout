@@ -63,11 +63,12 @@ class DifferentApproach: UICollectionViewLayout {
                 let itemSize = delegate.collectionView(collectionView, layout: self, sizeForItemAt: item)
                 layoutAttributes[key] = layoutAttribute
                 
-                TESTPURPOSE[key] = layoutAttribute
+                
                 
                 if !isHorizontallyAvailable(itemSize.width, minimumInterItemLineSpacing) {
                     allowedToGoNextLine = true
                     keySmall = getTheKeyOfTheLowestIndex()
+                    
                     context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
                 }
                 
@@ -76,13 +77,23 @@ class DifferentApproach: UICollectionViewLayout {
                 }
                 
                 if !keySmall.isEmpty {
+                    context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                    
                     let mockFrame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                     if mockFrame.minY > layoutAttributes[keySmall]!.frame.maxY {
-                        let yOffset = mockFrame.minY - layoutAttributes[keySmall]!.frame.maxY - minimumLineSpacing 
-                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                        let yOffset = mockFrame.minY - layoutAttributes[keySmall]!.frame.maxY - minimumLineSpacing
+                        context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
                     }
-//                    if mockFrame.maxX + minimumInterItemLineSpacing > contentWidth {
-//                        context.cursor = .init(x: layoutAttributes[keySmall]!.frame.minX, y: layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing)
+                    if item > 0 {
+                        let prevLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
+                        if context.cursor.x - prevLayout!.frame.maxX > minimumInterItemLineSpacing {
+                            let xoffSet = context.cursor.x - prevLayout!.frame.maxX - minimumInterItemLineSpacing
+                            context.cursor = .init(x: context.cursor.x - xoffSet, y: context.cursor.y)
+                        }
+                    }
+//                    if item == 7 {
+//                        let widthx = context.cursor.x + itemSize.width
+//                        context.cursor = .init(x: 0 ,y: context.cursor.y + minimumLineSpacing * 10)
 //                    }
                 }
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
@@ -98,10 +109,21 @@ class DifferentApproach: UICollectionViewLayout {
                             }
                             
                         }
+                    
                 }
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
+               
+                
+                
+                TESTPURPOSE[key] = layoutAttribute
                 removeAndUpdateDictionary(dic: &TESTPURPOSE, key: keySmall)
+                
                 lastItemHeight = itemSize.height
+                if item == 7 || item == 8 || item == 5 || item == 6 {
+                    print("\\\\\\\\\\\\ item: \(item) ////////////")
+                    print(TESTPURPOSE)
+                    print("---------------------------------------")
+                }
             }
         }
         contentSize = CGSize(width: contentWidth, height: context.cursor.y + lastItemHeight + minimumLineSpacing * 6)
