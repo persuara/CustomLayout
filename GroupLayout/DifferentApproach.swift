@@ -69,6 +69,8 @@ class DifferentApproach: UICollectionViewLayout {
                     print("------  item \(item) goes next line")
                     allowedToGoNextLine = true
                      
+//                    let dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY())
+//                    keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic)
                     keySmall = getTheKeyOfTheLowestIndex()
                     keyOther = getTheOtherKey(key: keySmall)
                     
@@ -78,13 +80,15 @@ class DifferentApproach: UICollectionViewLayout {
                            keyToPlayWith = keyOther
                         print(" keyToPlayWith \(item)")
                     }
-                    context.cursor = CGPoint(x: layoutAttributes[keySmall]!.frame.minX,  y: (layoutAttributes[keySmall]!.frame.maxY + minimumLineSpacing))
+                    context.cursor = CGPoint(x: layoutAttributes[keyToPlayWith]!.frame.minX,  y: (layoutAttributes[keyToPlayWith]!.frame.maxY + minimumLineSpacing))
                     
                 }
                 
                 if allowedToGoNextLine {
+//                    let dic = getTheOffsetOfEachAttributeFromMax(maxY: setTheMaxY())
+//                    keySmall = getTheIndexOfTheBiggestOffsetValue(offSet: dic)
                     keySmall = getTheKeyOfTheLowestIndex()
-                    keyOther = getTheOtherKey(key: keySmall)
+//                    keyOther = getTheOtherKey(key: keySmall)
                 }
                 
                 if !keySmall.isEmpty {
@@ -99,11 +103,7 @@ class DifferentApproach: UICollectionViewLayout {
                     context.cursor = .init(x: layoutAttributes[keyToPlayWith]!.frame.minX, y: layoutAttributes[keyToPlayWith]!.frame.maxY + minimumLineSpacing)
                     
                     let mockFrame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
-                    
-                    if mockFrame.minY > layoutAttributes[keyToPlayWith]!.frame.maxY {
-                        let yOffset = mockFrame.minY - layoutAttributes[keyToPlayWith]!.frame.maxY - minimumLineSpacing
-                        context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
-                    }
+                     
                     if item > 0 {
                         let prevLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
                         if context.cursor.x - prevLayout!.frame.maxX > minimumInterItemLineSpacing {
@@ -111,20 +111,26 @@ class DifferentApproach: UICollectionViewLayout {
                             context.cursor = .init(x: context.cursor.x - xoffSet, y: context.cursor.y)
                         }
                     }
-//                    if item == 7 {
-//                        let widthx = context.cursor.x + itemSize.width
-//                        context.cursor = .init(x: 0 ,y: context.cursor.y + minimumLineSpacing * 10)
-//                    }
+                    if mockFrame.minY > layoutAttributes[keyToPlayWith]!.frame.maxY {
+                        let yOffset = mockFrame.minY - layoutAttributes[keyToPlayWith]!.frame.maxY - minimumLineSpacing
+                        context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
+                    }
                 }
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                 
                 for i in 0..<layoutAttributes.count - 1 {
+                    var offset: CGFloat = 0.0
                     let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
                         if layoutAttribute.frame.intersects(lastframe) == true {
                             print("-------      InterSection Alert    ------- \(item) with \(i)")
                             if layoutAttribute.frame.minX < lastframe.maxX {
-                                let offset = lastframe.maxX - layoutAttribute.frame.minX
+                                offset = lastframe.maxX - layoutAttribute.frame.minX
                                 layoutAttribute.frame = CGRect(x: context.cursor.x + offset + minimumInterItemLineSpacing,
+                                                               y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+                            }
+                            if layoutAttribute.frame.minX < lastframe.maxX {
+                                offset = lastframe.maxX - layoutAttribute.frame.minX
+                                layoutAttribute.frame = CGRect(x: lastframe.maxX +  minimumInterItemLineSpacing,
                                                                y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                             }
                             
@@ -142,7 +148,7 @@ class DifferentApproach: UICollectionViewLayout {
                 
             }
         }
-        contentSize = CGSize(width: contentWidth, height: setTheMaxY())
+        contentSize = CGSize(width: contentWidth, height: setTheMaxYContentHeight())
     }
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         layoutAttributes[keyForLayoutAttributeItems(indexPath: indexPath)]
@@ -185,7 +191,7 @@ class DifferentApproach: UICollectionViewLayout {
         })
         return keyToPass
     }
-    private func setTheMaxY() -> CGFloat {
+    private func setTheMaxYContentHeight() -> CGFloat {
             var max: CGFloat = 0.0
             TESTPURPOSE.forEach({(key, value ) in
                 if value.frame.maxY >= max {
@@ -194,6 +200,39 @@ class DifferentApproach: UICollectionViewLayout {
             })
             return max
         }
+    private func setTheMaxY() -> Dictionary<String,CGFloat> {
+        var max: CGFloat = 0.0
+        var keyToPass: String = ""
+        var dictionary: Dictionary<String,CGFloat> = .init()
+        TESTPURPOSE.forEach({ (key, value ) in
+            if value.frame.maxY >= max {
+                max = value.frame.maxY
+                keyToPass = key
+            }
+        })
+        dictionary.updateValue(max, forKey: keyToPass)
+        return dictionary
+    }
+    private func getTheOffsetOfEachAttributeFromMax(maxY: Dictionary<String,CGFloat>) -> Dictionary<String, CGFloat>{
+        var offSet: CGFloat = 0.0
+        var dictionary: Dictionary<String,CGFloat> = .init()
+        TESTPURPOSE.forEach({ (key, value) in
+            offSet = (maxY.first?.value ?? 0.0) - value.frame.maxY
+            dictionary[key] = offSet
+        })
+        return dictionary
+    }
+    private func getTheIndexOfTheBiggestOffsetValue(offSet: Dictionary<String, CGFloat>) -> String {
+        var keyToPass: String = ""
+        var max: CGFloat = 0.0
+        offSet.forEach({(key, value) in
+            if value >= max {
+                max = value
+                keyToPass = key
+            }
+        })
+        return keyToPass
+    }
     private func removeAndUpdateDictionary(dic: inout [String: UICollectionViewLayoutAttributes] , key: String) {
         dic.removeValue(forKey: key)
     }
