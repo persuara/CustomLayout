@@ -58,7 +58,7 @@ class DifferentApproach: UICollectionViewLayout {
             var keyToPlayWith: String = ""
             var allowedToGoNextLine: Bool = false
             for item in 0..<collectionView.numberOfItems(inSection: section) {
-                
+                var calculatedMinimumInterSpacing: CGFloat = 0.0
                 let indexPath = IndexPath(item: item, section: section)
                 let layoutAttribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 let key = keyForLayoutAttributeItems(indexPath: indexPath)
@@ -127,14 +127,20 @@ class DifferentApproach: UICollectionViewLayout {
                                 offset = lastframe.maxX - layoutAttribute.frame.minX
                                 layoutAttribute.frame = CGRect(x: context.cursor.x + offset + minimumInterItemLineSpacing,
                                                                y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+                                context.cursor = .init(x: context.cursor.x + offset + minimumInterItemLineSpacing, y: context.cursor.y)
                             }
                             if layoutAttribute.frame.minX < lastframe.maxX {
                                 offset = lastframe.maxX - layoutAttribute.frame.minX
                                 layoutAttribute.frame = CGRect(x: lastframe.maxX +  minimumInterItemLineSpacing,
                                                                y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+                                context.cursor = .init(x: lastframe.maxX +  minimumInterItemLineSpacing, y: context.cursor.y)
                             }
-                            
-                        }
+                            calculatedMinimumInterSpacing = (contentWidth - layoutAttribute.frame.maxX) / CGFloat(TESTPURPOSE.count)
+                            print(" for item \(item) -> calculated: \(calculatedMinimumInterSpacing)")
+//                            if calculatedMinimumInterSpacing > minimumInterItemLineSpacing {
+//                                layoutAttribute.frame = .init(x: context.cursor.x + calculatedMinimumInterSpacing, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+//                            }
+                        } 
                     
                 }
                 context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)

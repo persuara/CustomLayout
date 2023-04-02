@@ -15,8 +15,8 @@ class ViewController: UIViewController {
         .init(size: CGSize(width: 70, height: 50)),
         .init(size: CGSize(width: 170, height: 200)),
         .init(size: CGSize(width: 150, height: 150)),
-        .init(size: CGSize(width: 200, height: 100)),
-        .init(size: CGSize(width: 80, height: 180)),
+        .init(size: CGSize(width: 220, height: 100)),
+        .init(size: CGSize(width: 80, height: 150)),
         .init(size: CGSize(width: 100, height: 80)),
         .init(size: CGSize(width: 130, height: 90)),
         .init(size: CGSize(width: 50, height: 100)),
@@ -104,6 +104,10 @@ class ViewController: UIViewController {
         collectionview.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
         
         collectionview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 10).isActive = true
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionview.layoutSubviews()
     }
 }
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
