@@ -71,43 +71,79 @@ class DifferentApproach: UICollectionViewLayout {
                 if !isHorizontallyAvailable(itemSize.width, minimumInterItemLineSpacing) {
                     print("------  item \(item) goes next line")
                     allowedToGoNextLine = true
-                    
+                    let prevLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
                     keySmall = getTheKeyOfTheLowestIndex()
                     
                     if !(layoutAttributes[keySmall]!.frame.minX + itemSize.width + minimumInterItemLineSpacing < contentWidth) {
-                        let prevLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
+                        
                         context.cursor = .init(x: prevLayout!.frame.minX, y: prevLayout!.frame.maxY + minimumLineSpacing)
                         keyToPlayWith = keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))
                         allowedToRemove = true
-                        
+                        if item == 7 {
+                            print(keySmall)
+                        }
                     } else {
                         keyToPlayWith = keySmall
                         allowedToRemove = true
                         context.cursor = CGPoint(x: layoutAttributes[keyToPlayWith]!.frame.minX,  y: (layoutAttributes[keyToPlayWith]!.frame.maxY + minimumLineSpacing))
+                        if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
+                            allowedToRemove = false
+                            if !(prevLayout!.frame.maxX + minimumInterItemLineSpacing + itemSize.width + minimumInterItemLineSpacing > contentWidth) {
+                                context.cursor = .init(x: prevLayout!.frame.maxX + minimumInterItemLineSpacing, y: prevLayout!.frame.minY)
+                                keyToPlayWith = keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))
+                                allowedToRemove = true
+                                
+                            } else {
+                                context.cursor = .init(x: prevLayout!.frame.minX, y: prevLayout!.frame.maxY + minimumLineSpacing)
+                                keyToPlayWith = keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))
+                                allowedToRemove = true
+                                if item == 7 {
+                                    print(keyToPlayWith)
+                                }
+                            }
+                        }
                     }
                     allowedToGoNextLine = !allowedToGoNextLine
                 }
                 
                 if !allowedToGoNextLine && !keySmall.isEmpty && keyToPlayWith.isEmpty {
+                    let prevLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
                     keySmall = getTheKeyOfTheLowestIndex()
                     keyToPlayWith = keySmall
-                    if item == 4 {
+                    if item == 7 {
                         print(keyToPlayWith)
                     }
-                    if !(layoutAttributes[keyToPlayWith]!.frame.maxX + itemSize.width + minimumInterItemLineSpacing > contentWidth) {
-                    context.cursor = .init(x: layoutAttributes[keyToPlayWith]!.frame.minX, y: layoutAttributes[keyToPlayWith]!.frame.maxY + minimumLineSpacing)
-                        allowedToRemove = true
+//                    !(layoutAttributes[keyToPlayWith]!.frame.maxX + itemSize.width + minimumInterItemLineSpacing > contentWidth)
+                    
+                    if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
+                        allowedToRemove = false
+                        if !(prevLayout!.frame.maxX + minimumInterItemLineSpacing + itemSize.width + minimumInterItemLineSpacing > contentWidth) {
+                            context.cursor = .init(x: prevLayout!.frame.maxX + minimumInterItemLineSpacing, y: prevLayout!.frame.minY)
+                            keyToPlayWith = keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))
+                            allowedToRemove = true
+                            
+                        } else {
+                            context.cursor = .init(x: prevLayout!.frame.minX, y: prevLayout!.frame.maxY + minimumLineSpacing)
+                            keyToPlayWith = keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))
+                            allowedToRemove = true
+                           
+                        }
+                    } else {
+                        if !(layoutAttributes[keySmall]!.frame.maxX + itemSize.width + minimumInterItemLineSpacing < contentWidth) {
+                            context.cursor = .init(x: layoutAttributes[keyToPlayWith]!.frame.minX, y: layoutAttributes[keyToPlayWith]!.frame.maxY + minimumLineSpacing)
+                            allowedToRemove = true
+                        }
                     }
                     
                     let mockFrame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
                      
                     if item > 0 {
-                        let prevLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
+                        
                         if context.cursor.x - prevLayout!.frame.maxX > minimumInterItemLineSpacing {
                             let xoffSet = context.cursor.x - prevLayout!.frame.maxX - minimumInterItemLineSpacing
                             context.cursor = .init(x: context.cursor.x - xoffSet, y: context.cursor.y)
                         }
-                        if mockFrame.minY > layoutAttributes[keySmall]!.frame.maxY {
+                        if mockFrame.minY > layoutAttributes[keyToPlayWith]!.frame.maxY && mockFrame.minY != layoutAttributes[keyToPlayWith]!.frame.minY {
                             allowedToRemove = true
                             print("item \(item)")
                             let yOffset = mockFrame.minY - layoutAttributes[keyToPlayWith]!.frame.maxY - minimumLineSpacing
