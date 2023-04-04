@@ -15,16 +15,16 @@ class ViewController: UIViewController {
         .init(size: CGSize(width: 70, height: 50)),
         .init(size: CGSize(width: 170, height: 200)),
         .init(size: CGSize(width: 150, height: 150)),
-        .init(size: CGSize(width: 220, height: 100)),
+        .init(size: CGSize(width: 90, height: 100)),
         .init(size: CGSize(width: 80, height: 150)),
         .init(size: CGSize(width: 100, height: 80)),
         .init(size: CGSize(width: 130, height: 90)),
         .init(size: CGSize(width: 50, height: 100)),
         .init(size: CGSize(width: 150, height: 100)),
-        .init(size: CGSize(width: widthConstant / 2 - 7, height: 100)),
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 110)),
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 90)),
-        .init(size: CGSize(width: widthConstant / 3 - 7, height: 80)),
+        .init(size: CGSize(width: widthConstant / 2 - 7, height: 100)), // 10
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 110)), // 11
+        .init(size: CGSize(width: widthConstant / 2 - 7, height: 90)), // 12
+        .init(size: CGSize(width: widthConstant / 1.1 - 7, height: 80)), // 13
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 190)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
