@@ -10,3 +10,8 @@ Main Branch -
 
 SecondaryP Branch -
 1. Handles Different width Sizes layout: CustomLayout 
+
+Final Branch -
+1. Handles Anything that's thrown to it, Different Width, Height anything: DifferentApproach.swfit
+
+Please Note that Final Branch does not yet handles minimum inter-item dynamic spacing calculation.... More updates on the way stay tuned!
