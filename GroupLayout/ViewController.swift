@@ -24,52 +24,72 @@ class ViewController: UIViewController {
         .init(size: CGSize(width: widthConstant / 2 - 7, height: 100)), // 10
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 110)), // 11
         .init(size: CGSize(width: widthConstant / 2 - 7, height: 90)), // 12
-        .init(size: CGSize(width: widthConstant / 2 - 7, height: 80)), // 13
+        .init(size: CGSize(width: widthConstant / 1.1 - 7, height: 80)), // 13
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 190)),
         .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
         .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
         .init(size: CGSize(width: widthConstant / 2 - 7, height: 100)),
-//        .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
-//        .init(size: CGSize(width: widthConstant / 2 - 7, height: 50)),
-//        .init(size: CGSize(width: widthConstant / 2 - 7, height: 180)),
-//        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
-//        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
-//        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 2 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 2 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
-//    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+        .init(size: CGSize(width: widthConstant / 3 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 2 - 7, height: 50)),
+        .init(size: CGSize(width: widthConstant / 2 - 7, height: 180)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
+        .init(size: CGSize(width: widthConstant / 5 - 7, height: 100)),
+        .init(size: CGSize(width: 150, height: 90)),
+        .init(size: CGSize(width: 70, height: 50)),
+        .init(size: CGSize(width: 160, height: 210)),
+        .init(size: CGSize(width: 200, height: 150)),
+        .init(size: CGSize(width: 105, height: 150)),
+        .init(size: CGSize(width: 80, height: 150)),
+        .init(size: CGSize(width: 100, height: 80)),
+        .init(size: CGSize(width: 130, height: 190)),
+        .init(size: CGSize(width: 50, height: 100)),
+        .init(size: CGSize(width: 80, height: 100)),
+        .init(size: CGSize(width: 150, height: 90)),
+        .init(size: CGSize(width: 70, height: 50)),
+        .init(size: CGSize(width: 160, height: 210)),
+        .init(size: CGSize(width: 200, height: 150)),
+        .init(size: CGSize(width: 105, height: 150)),
+        .init(size: CGSize(width: 80, height: 150)),
+        .init(size: CGSize(width: 100, height: 80)),
+        .init(size: CGSize(width: 130, height: 190)),
+        .init(size: CGSize(width: 50, height: 100)),
+        .init(size: CGSize(width: 80, height: 100)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 2 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 2 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
+    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
 //    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
 //    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
 //    .init(size: CGSize(width: 100, height: widthConstant / 4 - 7)),
@@ -85,7 +105,8 @@ class ViewController: UIViewController {
         let view: UICollectionView = .init(frame: .zero, collectionViewLayout: layout)
         view.delegate = self
         view.dataSource = self
-        layout.delegate = self 
+        layout.delegate = self
+        
 //        layout.collectionView?.layoutSubviews()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.reuseIdentifier)
@@ -105,9 +126,10 @@ class ViewController: UIViewController {
         
         collectionview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 10).isActive = true
     }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        collectionview.layoutSubviews()
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        collectionview.collectionViewLayout.invalidateLayout()
+    
     }
 }
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -129,7 +151,7 @@ extension ViewController: CustomLayoutDelegate {
     }
     
     func collectionview(_ collectionview: UICollectionView, layout: UICollectionViewLayout, minimumLineSpacing section: Int) -> CGFloat {
-        1
+        5
     }
     
     func collectionview(_ collectionview: UICollectionView, layout: UICollectionViewLayout, minimumInterItemLineSpacing section: Int) -> CGFloat {
