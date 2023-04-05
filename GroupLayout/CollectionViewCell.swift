@@ -23,8 +23,8 @@ class CollectionViewCell: UICollectionViewCell {
         label.font = UIFont(name: "Arial", size: 30)
         label.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.widthAnchor.constraint(equalToConstant: self.frame.size.width / 2.5).isActive = true
-        label.heightAnchor.constraint(equalToConstant: self.frame.size.height / 2.5).isActive = true
+        label.widthAnchor.constraint(equalToConstant: self.frame.size.width / 1.2).isActive = true
+        label.heightAnchor.constraint(equalToConstant: self.frame.size.height / 1.2).isActive = true
     }
     
     required init?(coder: NSCoder) {

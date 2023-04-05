@@ -1,12 +1,19 @@
 //
-//  DifferentApproach.swift
+//  NewDifferentApproach.swift
 //  GroupLayout
 //
-//  Created by AmirHossein EramAbadi on 3/29/23.
+//  Created by AmirHossein EramAbadi on 4/5/23.
 //
 
 import UIKit
-class DifferentApproach: UICollectionViewLayout {
+class NewDifferentApproach: UICollectionViewLayout {
+    
+    static let shared = NewDifferentApproach()
+    private override init() {super.init()}
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public weak var delegate: CustomLayoutDelegate?
     
@@ -90,9 +97,12 @@ class DifferentApproach: UICollectionViewLayout {
                     
                     let neededLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: calc, section: section))]
                     let prevLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
-                    context.cursor = .init(x: prevLayout!.frame.maxX, y: prevLayout!.frame.minY)
+                    context.cursor = .init(x: prevLayout!.frame.maxX + minimumInterItemLineSpacing, y: prevLayout!.frame.minY)
                     
                     if isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
+                        if item == 4 {
+                            print(item - numberOfItemInRow - 1)
+                        }
                         context.cursor = .init(x: neededLayout!.frame.maxX + minimumInterItemLineSpacing, y: neededLayout!.frame.minY)
                     } else {
                         let neededlayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - numberOfItemInRow, section: section))]
@@ -103,29 +113,13 @@ class DifferentApproach: UICollectionViewLayout {
                         allowedToGoNextLine = !allowedToGoNextLine
                     }
                     
-                    var mockFrame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
-                    for i in 0..<layoutAttributes.count - 1 {
-                        let lastFrame = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i, section: section))]!.frame
-                        if mockFrame.intersects(lastFrame) {
-//                            print("mockFramee item \(item) has intersection with \(i)")
-                            if mockFrame.minY < lastFrame.maxY {
-                                context.cursor = .init(x: context.cursor.x, y: lastFrame.maxY + minimumLineSpacing)
-                            }
-                            mockFrame = .init(x: context.cursor.x, y: context.cursor.y , width: itemSize.width, height: itemSize.height)
-                            if mockFrame.minX > 0 {
-                                context.cursor = .init(x: 0, y: context.cursor.y)
-                                mockFrame = .init(x: context.cursor.x, y: context.cursor.y , width: itemSize.width, height: itemSize.height)
-                            }
-                        }
+                    let mockFrame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+                    if mockFrame.minY - neededLayout!.frame.maxY > 0  {
+                        print(" |||||||||------- item \(item) -------|||||||||")
+                        let yOffset = mockFrame.minY - neededLayout!.frame.maxY + minimumLineSpacing
+                         context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
+//                        context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
                     }
-                    mockFrame = .init(x: context.cursor.x, y: context.cursor.y , width: itemSize.width, height: itemSize.height)
-                    
-//                    if mockFrame.minY - neededLayout!.frame.maxY > 0  {
-//                        print(" |||||||||------- item \(item) -------|||||||||")
-//                        let yOffset = mockFrame.minY - neededLayout!.frame.maxY + minimumLineSpacing
-//                         context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
-////                        context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
-//                    }
                 }
                 
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
@@ -133,6 +127,7 @@ class DifferentApproach: UICollectionViewLayout {
                 for i in 0..<layoutAttributes.count - 1 {
                     var offset: CGFloat = 0.0
                     let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
+
                     if layoutAttribute.frame.intersects(lastframe) == true {
                         print("-------      InterSection Alert    ------- \(item) with \(i)")
                         if layoutAttribute.frame.minY <= lastframe.maxY {
@@ -141,17 +136,23 @@ class DifferentApproach: UICollectionViewLayout {
                                                            y: lastframe.maxY + minimumLineSpacing , width: itemSize.width, height: itemSize.height)
                             context.cursor = .init(x: layoutAttribute.frame.minX, y: layoutAttribute.frame.minY)
                         }
+                        
+//                        if !layoutAttribute.frame.intersects(prevLayout!.frame) && layoutAttribute.frame.minX != 0 {
+////                            print("item \(item) does not intersects with \(prevLayout)")
+//                            layoutAttribute.frame = .init(x: 0, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
+//                            context.cursor = .init(x: layoutAttribute.frame.minX, y: layoutAttribute.frame.minY)
+//                        }
                     }
+//                    if firstLinePassed {
+//                        let neededLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - numberOfItemInRow - 1, section: section))]
+//                        if layoutAttribute.frame.minY - neededLayout!.frame.maxY > minimumLineSpacing && !layoutAttribute.frame.intersects(lastframe) {
+//                            let offset = layoutAttribute.frame.minY - neededLayout!.frame.maxY + minimumLineSpacing
+//                            layoutAttribute.frame = .init(x: context.cursor.x, y: context.cursor.y - offset , width: itemSize.width, height: itemSize.height)
+//                            context.cursor = .init(x: layoutAttribute.frame.minX, y: layoutAttribute.frame.minY)
+//                        }
+//                    }
                 }
-                    if item > 0 {
-                        if prevLayout!.frame.maxY - layoutAttribute.frame.minY < minimumLineSpacing {
-//                            let frame = layoutAttribute.frame
-//                            let offset = prevLayout!.frame.maxY - layoutAttribute.frame.minY + minimumLineSpacing
-//                            
-//                            layoutAttribute.frame = .init(x: frame.minX, y: frame.maxY + offset, width: frame.width, height: frame.height)
-//                            print("item \(item) is with \(item - 1)")
-                        }
-                    }
+              
                 if !firstLinePassed {
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
                 }
