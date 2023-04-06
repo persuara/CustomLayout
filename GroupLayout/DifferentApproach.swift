@@ -68,12 +68,28 @@ class DifferentApproach: UICollectionViewLayout {
                 let layoutAttribute = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 let key = keyForLayoutAttributeItems(indexPath: indexPath)
                 let itemSize = delegate.collectionView(collectionView, layout: self, sizeForItemAt: item)
+                var calculatedMinimum: CGFloat?
                 layoutAttributes[key] = layoutAttribute
                 
                 if !isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                     
-//                    print("||||| item \(item) goes next line")
-                    
+                    print("||||| item \(item) goes next line")
+                    print("item before \(item - 1)")
+                    print("numberOfItemInRow \(numberOfItemInRow)")
+                    //MARK: -- TEST
+                    let layoutBig = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
+                    calculatedMinimum = (contentWidth - layoutBig!.frame.maxX) / CGFloat(numberOfItemInRow + 2)
+                    print(calculatedMinimum)
+                    print("-------------")
+                    for i in (0..<numberOfItemInRow).reversed() {
+                        let layoutToChange = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: (item - 1) - i , section: section))]
+                        if calculatedMinimum! > minimumInterItemLineSpacing {
+                            layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame =
+                                .init(x: layoutToChange!.frame.maxX + calculatedMinimum!, y: layoutToChange!.frame.minY, width: layoutToChange!.frame.width, height: layoutToChange!.frame.height)
+                        }
+                        
+                    }
+                    //MARK: -- END TEST
                     allowedToGoNextLine = true
                     firstLinePassed = true
                     
@@ -95,6 +111,20 @@ class DifferentApproach: UICollectionViewLayout {
                     if isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                         context.cursor = .init(x: neededLayout!.frame.maxX + minimumInterItemLineSpacing, y: neededLayout!.frame.minY)
                     } else {
+                        //MARK: -- TEST
+                        let layoutBig = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
+                        calculatedMinimum = (contentWidth - layoutBig!.frame.maxX) / CGFloat(numberOfItemInRow + 2)
+                        print(calculatedMinimum)
+                        print("-------------")
+                        for i in (0..<numberOfItemInRow).reversed() {
+                            let layoutToChange = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: (item - 1) - i , section: section))]
+                            if calculatedMinimum! > minimumInterItemLineSpacing {
+                                layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame =
+                                    .init(x: layoutToChange!.frame.maxX + calculatedMinimum!, y: layoutToChange!.frame.minY, width: layoutToChange!.frame.width, height: layoutToChange!.frame.height)
+                            }
+                            
+                        }
+                        //MARK: -- END TEST
                         let neededlayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - numberOfItemInRow, section: section))]
                         TEST = numberOfItemInRow
                         numberOfItemInRow = 0
@@ -108,20 +138,20 @@ class DifferentApproach: UICollectionViewLayout {
                         let lastFrame = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i, section: section))]!.frame
                         if mockFrame.intersects(lastFrame) {
 //                            print("mockFramee item \(item) has intersection with \(i)")
-                            if mockFrame.minY < lastFrame.maxY {
-                                context.cursor = .init(x: context.cursor.x, y: lastFrame.maxY + minimumLineSpacing)
-                            }
+//                            if mockFrame.minY < lastFrame.maxY {
+//                                context.cursor = .init(x: context.cursor.x, y: lastFrame.maxY + minimumLineSpacing)
+//                            }
                             mockFrame = .init(x: context.cursor.x, y: context.cursor.y , width: itemSize.width, height: itemSize.height)
-                            if mockFrame.minX > 0 {
-                                context.cursor = .init(x: 0, y: context.cursor.y)
-                                mockFrame = .init(x: context.cursor.x, y: context.cursor.y , width: itemSize.width, height: itemSize.height)
-                            }
+//                            if mockFrame.minX > 0 {
+//                                context.cursor = .init(x: 0, y: context.cursor.y)
+//                                mockFrame = .init(x: context.cursor.x, y: context.cursor.y , width: itemSize.width, height: itemSize.height)
+//                            }
                         }
                     }
                     mockFrame = .init(x: context.cursor.x, y: context.cursor.y , width: itemSize.width, height: itemSize.height)
                     
 //                    if mockFrame.minY - neededLayout!.frame.maxY > 0  {
-//                        print(" |||||||||------- item \(item) -------|||||||||")
+//                        print(" |||||||||------- item \(item) -------||||||||| \(neededLayout?.indexPath.item)")
 //                        let yOffset = mockFrame.minY - neededLayout!.frame.maxY + minimumLineSpacing
 //                         context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
 ////                        context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
@@ -132,7 +162,7 @@ class DifferentApproach: UICollectionViewLayout {
                
                 for i in 0..<layoutAttributes.count - 1 {
                     var offset: CGFloat = 0.0
-                    let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i , section: section))]?.frame ?? .zero
+                    let lastframe = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i, section: section))]?.frame ?? .zero
                     if layoutAttribute.frame.intersects(lastframe) == true {
                         print("-------      InterSection Alert    ------- \(item) with \(i)")
                         if layoutAttribute.frame.minY <= lastframe.maxY {
@@ -141,17 +171,9 @@ class DifferentApproach: UICollectionViewLayout {
                                                            y: lastframe.maxY + minimumLineSpacing , width: itemSize.width, height: itemSize.height)
                             context.cursor = .init(x: layoutAttribute.frame.minX, y: layoutAttribute.frame.minY)
                         }
+//                        r
                     }
                 }
-                    if item > 0 {
-                        if prevLayout!.frame.maxY - layoutAttribute.frame.minY < minimumLineSpacing {
-//                            let frame = layoutAttribute.frame
-//                            let offset = prevLayout!.frame.maxY - layoutAttribute.frame.minY + minimumLineSpacing
-//                            
-//                            layoutAttribute.frame = .init(x: frame.minX, y: frame.maxY + offset, width: frame.width, height: frame.height)
-//                            print("item \(item) is with \(item - 1)")
-                        }
-                    }
                 if !firstLinePassed {
                     context.cursor = CGPoint(x: context.cursor.x + itemSize.width + minimumInterItemLineSpacing , y: context.cursor.y)
                 }
