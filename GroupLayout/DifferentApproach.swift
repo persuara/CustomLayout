@@ -77,18 +77,18 @@ class DifferentApproach: UICollectionViewLayout {
                     print("item before \(item - 1)")
                     print("numberOfItemInRow \(numberOfItemInRow)")
                     //MARK: -- TEST
-                    let layoutBig = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
-                    calculatedMinimum = (contentWidth - layoutBig!.frame.maxX) / CGFloat(numberOfItemInRow + 2)
-                    print(calculatedMinimum)
-                    print("-------------")
-                    for i in (0..<numberOfItemInRow).reversed() {
-                        let layoutToChange = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: (item - 1) - i , section: section))]
-                        if calculatedMinimum! > minimumInterItemLineSpacing {
-                            layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame =
-                                .init(x: layoutToChange!.frame.maxX + calculatedMinimum!, y: layoutToChange!.frame.minY, width: layoutToChange!.frame.width, height: layoutToChange!.frame.height)
-                        }
-                        
-                    }
+//                    let layoutBig = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
+//                    calculatedMinimum = (contentWidth - layoutBig!.frame.maxX) / CGFloat(numberOfItemInRow + 2)
+//                    print(calculatedMinimum)
+//                    print("-------------")
+//                    for i in (0..<numberOfItemInRow).reversed() {
+//                        let layoutToChange = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: (item - 1) - i , section: section))]
+//                        if calculatedMinimum! > minimumInterItemLineSpacing {
+//                            layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame =
+//                                .init(x: layoutToChange!.frame.maxX + calculatedMinimum!, y: layoutToChange!.frame.minY, width: layoutToChange!.frame.width, height: layoutToChange!.frame.height)
+//                        }
+//                        
+//                    }
                     //MARK: -- END TEST
                     allowedToGoNextLine = true
                     firstLinePassed = true
@@ -104,33 +104,48 @@ class DifferentApproach: UICollectionViewLayout {
                     let calc = item - (TEST) - 1
                     var tessst = calc - 1
                     
+                    
                     let neededLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: calc, section: section))]
                     let prevLayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
                     context.cursor = .init(x: prevLayout!.frame.maxX, y: prevLayout!.frame.minY)
                     
                     if isAvailableSpace(itemSize.width, minimumInterItemLineSpacing) {
                         context.cursor = .init(x: neededLayout!.frame.maxX + minimumInterItemLineSpacing, y: neededLayout!.frame.minY)
+                        
                     } else {
+                        print("nexLine -> item \(item) numberOfItems in row: \(numberOfItemInRow)")
                         //MARK: -- TEST
+//                        print(")
                         let layoutBig = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - 1, section: section))]
-                        calculatedMinimum = (contentWidth - layoutBig!.frame.maxX) / CGFloat(numberOfItemInRow + 2)
-                        print(calculatedMinimum)
-                        print("-------------")
-                        for i in (0..<numberOfItemInRow).reversed() {
-                            let layoutToChange = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: (item - 1) - i , section: section))]
-                            if calculatedMinimum! > minimumInterItemLineSpacing {
-                                layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame =
-                                    .init(x: layoutToChange!.frame.maxX + calculatedMinimum!, y: layoutToChange!.frame.minY, width: layoutToChange!.frame.width, height: layoutToChange!.frame.height)
-                            }
-                            
-                        }
+                        calculatedMinimum = (contentWidth - layoutBig!.frame.maxX) / CGFloat(numberOfItemInRow)
+                        
+//                        for i in (0..<numberOfItemInRow).reversed() {
+//                            let layoutToChange = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: (item - 1) - i , section: section))]
+//
+//                            if calculatedMinimum! > minimumInterItemLineSpacing {
+//                                layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame =
+//                                    .init(x: layoutToChange!.frame.maxX + calculatedMinimum!, y: layoutToChange!.frame.minY, width: layoutToChange!.frame.width, height: layoutToChange!.frame.height)
+//                                context.cursor = .init(x: layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame.minX, y: layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame.minY)
+////                                for k in 0..<layoutAttributes.count - 1 {
+//                                    let layout =  layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: i, section: section))]!
+////                                    if layoutToChange!.frame.intersects(layout.frame) {
+////                                        layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame =
+////                                            .init(x: layoutToChange!.frame.minX, y: layout.frame.maxY + minimumLineSpacing, width: layoutToChange!.frame.width, height: layoutToChange!.frame.height)
+////                                        context.cursor = .init(x: layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame.minX, y: layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - i, section: section))]!.frame.minY)
+////                                    }
+////                                }
+//                            }
+//
+//                        }
+                     
                         //MARK: -- END TEST
                         let neededlayout = layoutAttributes[keyForLayoutAttributeItems(indexPath: IndexPath(item: item - numberOfItemInRow, section: section))]
-                        TEST = numberOfItemInRow
+//                        TEST = numberOfItemInRow
+                        
                         numberOfItemInRow = 0
-                        allowedToGoNextLine = true
+//                        allowedToGoNextLine = true
                         context.cursor = .init(x: neededlayout!.frame.minX, y:neededlayout!.frame.maxY + minimumLineSpacing)
-                        allowedToGoNextLine = !allowedToGoNextLine
+//                        allowedToGoNextLine = false
                     }
                     
                     var mockFrame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
@@ -150,12 +165,12 @@ class DifferentApproach: UICollectionViewLayout {
                     }
                     mockFrame = .init(x: context.cursor.x, y: context.cursor.y , width: itemSize.width, height: itemSize.height)
                     
-//                    if mockFrame.minY - neededLayout!.frame.maxY > 0  {
-//                        print(" |||||||||------- item \(item) -------||||||||| \(neededLayout?.indexPath.item)")
-//                        let yOffset = mockFrame.minY - neededLayout!.frame.maxY + minimumLineSpacing
-//                         context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
-////                        context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
-//                    }
+                    if mockFrame.minY - neededLayout!.frame.maxY > 0  {
+                        print(" |||||||||------- item \(item) -------||||||||| \(neededLayout?.indexPath.item)")
+                        let yOffset = mockFrame.minY - neededLayout!.frame.maxY + minimumLineSpacing
+                         context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
+//                        context.cursor = .init(x: context.cursor.x, y: context.cursor.y - yOffset)
+                    }
                 }
                 
                 layoutAttribute.frame = CGRect(x: context.cursor.x, y: context.cursor.y, width: itemSize.width, height: itemSize.height)
@@ -196,7 +211,7 @@ class DifferentApproach: UICollectionViewLayout {
         return "LayoutAttribute: \(indexPath.item), \(indexPath.section)"
     }
     private func isAvailableSpace(_ width: CGFloat, _ minimumInterItemLineSpacing: CGFloat ) -> Bool {
-        return context.cursor.x + width + minimumInterItemLineSpacing < (contentWidth + collectionView!.contentInset.left)
+        return context.cursor.x + width + minimumInterItemLineSpacing * 2 < (contentWidth + collectionView!.contentInset.left)
     }
     private func setTheMaxYContentHeight() -> CGFloat {
         var max: CGFloat = 0.0
